@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Sign In | Bootstrap Based Admin Template - Material Design</title>
+    <link th:each="cssItem:${cssList}" rel="stylesheet" type="text/css" th:href="${cssItem}" />
+</head>
+
+<body class="login">
+<div>
+    <a class="hiddenanchor" id="signup"></a>
+    <a class="hiddenanchor" id="signin"></a>
+
+    <div class="login_wrapper">
+        <div class="animate form login_form">
+            <section class="login_content">
+
+                <form id="sign_in" method="POST"action="#" th:action="${#request.queryString == null ? '/j_spring_security_check' : '/j_spring_security_check?'+ #request.queryString}">
+                    <h1>Login Form</h1>
+                    <div>
+                        <input type="text" name="username" class="form-control" placeholder="Username" required="" />
+                    </div>
+                    <div>
+                        <input type="password" name="password" class="form-control" placeholder="Password" required="" />
+                    </div>
+                    <div>
+
+                        <input class="btn btn-success" type="submit">
+                        <a class="reset_pass" href="#">Lost your password?</a>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="separator">
+                        <p class="change_link">New to site?
+                            <a href="#signup" class="to_register"> Create Account </a>
+                        </p>
+
+                        <div class="clearfix"></div>
+                    </div>
+                </form>
+            </section>
+        </div>
+
+    </div>
+</div>
+<script th:each="jsItem:${jsList}" th:src="${jsItem}"></script>
+</body>
+
+</html>

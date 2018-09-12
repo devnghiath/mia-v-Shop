@@ -1,0 +1,17 @@
+package thn.vn.web.miav.shop.services;
+
+
+import thn.vn.web.miav.shop.utils.ParameterSql;
+
+import java.util.List;
+
+public interface DataBaseService {
+    <T> List<T> getAll(Class<T> clazz);
+    <T>List<T> getAll(Class<T> clazz, String clause, ParameterSql... args);
+    <T>List<T> getAll(Class<T> clazz, String sql);
+    <T>T find(Class<T> clazz, String clause, ParameterSql... args);
+    <T>T find(Class<T> clazz, String sql);
+    <T> void delete(Class<T> clazz, String clause, ParameterSql... args);
+    <T >void save(T entity);
+    <T>boolean checked(Class<T> clazz, String clause, ParameterSql... args);
+}

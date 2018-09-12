@@ -1,0 +1,186 @@
+<div class=""xmlns:th="http://www.thymeleaf.org">
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h3>Đăng ký sản phẩm</h3>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <!--/*@thymesVar id="formData" type="thn.vn.web.miav.shop.models.entity.Product"*/-->
+                    <form  class="form-horizontal form-label-left" action="#"
+                          th:action="@{/admin/product/new}"
+                          th:object="${formData}" method="post">
+                        <!--/*@thymesVar id="product" type="thn.vn.web.miav.shop.models.entity.Product"*/-->
+                        <div th:if="${product}!=null">
+                            <input type="hidden" name="id" th:value="${product.id}">
+                        </div>
+                        <div id ="imageList">
+
+                        </div>
+                        <input type="hidden" id="categoryId" name="categoryId"
+                               th:value="${product!=null?product.categoryId:''}">
+                        <input type="hidden" id="brandId" name="brandId" th:value="${product!=null?product.brandId:''}">
+                        <input type="hidden" id="manufacturersId" name="manufacturersId"
+                               th:value="${product!=null?product.manufacturersId:''}">
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Tên  sản phẩm <span
+                                    class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div th:if="${product}!=null">
+                                    <input id="name" class="form-control col-md-7 col-xs-12"
+                                           data-validate-length-range="6"
+                                           data-validate-words="2" name="name" placeholder="Tên sản phẩm"
+                                           required="required" type="text" th:value="${product.name}">
+                                </div>
+                                <div th:if="${product}==null">
+                                    <input class="form-control col-md-7 col-xs-12"
+                                           data-validate-length-range="6"
+                                           data-validate-words="2" name="name" placeholder="Tên sản phẩm"
+                                           required="required" type="text" th:field="*{name}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Tên sản phẩm mở rộng
+                                <span
+                                        class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div th:if="${product}!=null">
+                                    <input id="nameSecond" class="form-control col-md-7 col-xs-12"
+                                           data-validate-length-range="6"
+                                           data-validate-words="2" name="nameSecond" placeholder="Tên mở rộng"
+                                           required="required" type="text" th:value="${product.nameSecond}">
+                                </div>
+                                <div th:if="${product}==null">
+                                    <input class="form-control col-md-7 col-xs-12"
+                                           data-validate-length-range="6"
+                                           data-validate-words="2" name="nameSecond" placeholder="Tên mở rộng"
+                                           required="required" type="text" th:field="*{nameSecond}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Giá nhập sản phẩm<span
+                                    class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div th:if="${product}!=null">
+                                    <input id="priceSell" class="form-control col-md-7 col-xs-12"
+                                           data-validate-length-range="6"
+                                           data-validate-words="2" name="priceSell" placeholder="Giá bán sản phẩm"
+                                           required="required" type="text" th:value="${product.priceRoot}">
+                                </div>
+                                <div th:if="${product}==null">
+                                    <input class="form-control col-md-7 col-xs-12"
+                                           data-validate-length-range="6"
+                                           data-validate-words="2" name="priceSell" placeholder="Giá bán sản phẩm"
+                                           required="required" type="text" th:field="*{priceRoot}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Giá bán sản phẩm<span
+                                    class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div th:if="${product}!=null">
+                                    <input id="priceSell" class="form-control col-md-7 col-xs-12"
+                                           data-validate-length-range="6"
+                                           data-validate-words="2" name="priceSell" placeholder="Giá bán sản phẩm"
+                                           required="required" type="text" th:value="${product.priceSell}">
+                                </div>
+                                <div th:if="${product}==null">
+                                    <input class="form-control col-md-7 col-xs-12"
+                                           data-validate-length-range="6"
+                                           data-validate-words="2" name="priceSell" placeholder="Giá bán sản phẩm"
+                                           required="required" type="text" th:field="*{priceSell}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <input class="btn btn-success col-md-3 col-sm-3 col-xs-12" data-toggle="modal"
+                                   th:onclick="|loadPopup('/admin/category/popup')|" type="button"
+                                   value="Chọn danh mục sản phẩm">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="categoryName" class="form-control col-md-7 col-xs-12"
+                                       data-validate-length-range="6"
+                                       data-validate-words="2" name="categoryName"
+                                       required="required" type="text" th:value="${product!=null?product.categoryName:''}" readonly>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <input class="btn btn-success col-md-3 col-sm-3 col-xs-12" data-toggle="modal"
+                                   th:onclick="|loadPopup('/admin/brand/popup')|" type="button" value="Chọn nhãn hiệu">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="brandName" class="form-control col-md-7 col-xs-12"
+                                       data-validate-length-range="6"
+                                       data-validate-words="2" name="brandName" readonly
+                                       required="required" type="text" th:value="${product != null ? product.brandName:''}">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <input class="btn btn-success col-md-3 col-sm-3 col-xs-12" data-toggle="modal" type="button"
+                                   value="Chọn nhà sản xuất" th:onclick="|loadPopup('/admin/manufacturer/popup')|">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="manufacturersName" class="form-control col-md-7 col-xs-12"
+                                       data-validate-length-range="6"
+                                       data-validate-words="2" name="manufacturersName" readonly
+                                       required="required" type="text" th:value="${product!=null?product.manufacturersName:''}">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Hình ảnh sản phẩm<span
+                                    class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="dropzone dz-clickable ">
+                                    <div class="dz-default dz-message"><span>Drop files here to upload</span></div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!--<div class="ln_solid"></div>-->
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-3">
+                                <button type="submit" class="btn btn-primary">Cancel</button>
+                                <button id="send" type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+</div>
+
+<!--<script>-->
+    <!--Dropzone.autoDiscover = false;-->
+
+    <!--$(".dropzone").dropzone({-->
+        <!--url: "/admin/upload",-->
+        <!--success: function(file, responseText){-->
+
+            <!--var myJson =JSON.stringify(responseText); //jQuery.parseJSON(responseText)-->
+            <!--console.log(myJson);-->
+            <!--var dataJson = JSON.parse(myJson);-->
+            <!--// alert( dataJson.fileName);-->
+            <!--// $('<input>').attr({-->
+            <!--//     type: 'hidden',-->
+            <!--//     name: 'fileName',-->
+            <!--//     value: dataJson.fileName-->
+            <!--// }).appendTo("#imageList");-->
+            <!--$("#imageList").append(responseText)-->
+            <!--// $('.dz-hidden-input').remove();-->
+            <!--// $("#imageList").append('<input type="hidden" name="myfieldname" value= dataJson.fileName" />');-->
+        <!--}-->
+    <!--});-->
+
+<!--</script>-->
