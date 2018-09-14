@@ -42,6 +42,24 @@ public class DataBaseDaoImpl implements DataBaseDao {
     }
 
     @Override
+    public <T> List<T> getAll(Class<T> clazz, int maxResult, int firstResult) {
+        Session session = null;
+        try {
+            session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<T> query = builder.createQuery(clazz);
+            Root<T> contactRoot = query.from(clazz);
+            query.select(contactRoot);
+            List<T> list = session.createQuery(query).setMaxResults(maxResult).setFirstResult(firstResult).getResultList();
+            return list;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
     public <T> List<T> getAll(Class<T> clazz, String clause, ParameterSql... args) {
         Session session = null;
         try {
@@ -60,12 +78,45 @@ public class DataBaseDaoImpl implements DataBaseDao {
     }
 
     @Override
+    public <T> List<T> getAll(Class<T> clazz, String clause, int maxResult, int firstResult, ParameterSql... args) {
+        Session session = null;
+        try {
+            session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+            String queryString = "from " + clazz.getSimpleName() + " where " + clause;
+
+            Query<T> query = session.createQuery(queryString);
+            query=setParam(query,args);
+            List<T> list = query.setMaxResults(maxResult).setFirstResult(firstResult).getResultList();
+            return list;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
     public <T> List<T> getAll(Class<T> clazz, String sql) {
         Session session = null;
         try {
             session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
             Query<T> query = session.createQuery(sql);
             List<T> list = query.getResultList();
+            return list;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public <T> List<T> getAll(Class<T> clazz, String sql, int maxResult, int firstResult) {
+        Session session = null;
+        try {
+            session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+            Query<T> query = session.createQuery(sql);
+            List<T> list = query.setMaxResults(maxResult).setFirstResult(firstResult).getResultList();
             return list;
         } catch (Exception e) {
             throw e;

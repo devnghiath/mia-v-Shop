@@ -123,7 +123,13 @@ public class StorageService {
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
     }
-
+    public void deleteAllFile(String path){
+        if (!path.startsWith("/")){
+            path = "/"+path;
+        }
+        String pathBase = System.getProperty("user.dir")+path;
+        FileSystemUtils.deleteRecursively(Paths.get(String.valueOf(Paths.get(pathBase))).toFile());
+    }
     public void init() {
         try {
 

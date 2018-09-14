@@ -7,8 +7,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "inventory")
 public class Inventory {
-    @Id
-    private int productId;
+
 
     public int getProductId() {
         return productId;
@@ -50,11 +49,6 @@ public class Inventory {
         this.amountExport = amountExport;
     }
 
-    private String inventoryDate;
-    private int amountFirst;
-    private int amountImport;
-    private int amountExport;
-
     public int getAmountInventory() {
         return amountInventory;
     }
@@ -63,8 +57,6 @@ public class Inventory {
         this.amountInventory = amountInventory;
     }
 
-    private int amountInventory;
-    private String productName;
 
     public String getProductName() {
         return productName;
@@ -81,7 +73,25 @@ public class Inventory {
     public void setProductNameSecond(String productNameSecond) {
         this.productNameSecond = productNameSecond;
     }
+    @Id
+    private int productId;
+    private String inventoryDate;
+    private int amountFirst;
+    private int amountImport;
+    private int amountExport;
 
+    private int amountInventory;
+    private String productName;
     private String productNameSecond;
+
+    public String getDateUpdate() {
+        return dateUpdate;
+    }
+
+    public void setDateUpdate(String dateUpdate) {
+        this.dateUpdate = dateUpdate;
+    }
+
+    private String dateUpdate;
 
 }

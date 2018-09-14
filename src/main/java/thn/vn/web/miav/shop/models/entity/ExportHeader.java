@@ -5,9 +5,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "export_header")
 public class ExportHeader {
-    @Id
-    private String id;
-    private String dateExport;
 
     public String getId() {
         return id;
@@ -56,7 +53,9 @@ public class ExportHeader {
     public void setNote(String note) {
         this.note = note;
     }
-
+    @Id
+    private String id;
+    private String dateExport;
     private String dateUpdate;
     private int total;
     private int userId;

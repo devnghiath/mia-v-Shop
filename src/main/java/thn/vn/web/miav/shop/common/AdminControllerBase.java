@@ -43,6 +43,7 @@ public class AdminControllerBase extends ControllerBase{
     public static String generateId(int length,String prefix){
         return Utils.generateId(length,prefix);
     }
+
     protected UserApp getUserApp(HttpServletRequest request){
         String bearerToken = "";
         for(Cookie cookie:request.getCookies()){

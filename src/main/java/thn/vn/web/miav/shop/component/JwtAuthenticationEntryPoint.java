@@ -20,8 +20,9 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         if (!url_filter.startsWith("/api")&&!url_filter.startsWith("/auth")){
             httpServletResponse.sendRedirect("/sign?redirect="+url_filter);
         } else {
-            httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED,
-                    "Sorry, You're not authorized to access this resource.");
+            httpServletResponse.sendRedirect("/error/api");
+//            httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED,
+//                    "Sorry, You're not authorized to access this resource.");
         }
     }
 }

@@ -132,4 +132,13 @@ public class Import  implements Serializable {
     public void setNote(String note) {
         this.note = note;
     }
+    public int getIsWarehouse() {
+        return isWarehouse;
+    }
+
+    public void setIsWarehouse(int isWarehouse) {
+        this.isWarehouse = isWarehouse;
+    }
+
+    private int isWarehouse = 1;
 }

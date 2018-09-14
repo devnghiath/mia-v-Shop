@@ -14,7 +14,7 @@ public class Category  implements Serializable {
         this.dateUpdate = dateUpdate;
     }
 
-    private String dateUpdate;
+
 
     public int getIsDelete() {
         return isDelete;
@@ -24,7 +24,7 @@ public class Category  implements Serializable {
         this.isDelete = isDelete;
     }
 
-    private int isDelete = 0;
+
     public int getId() {
         return id;
     }
@@ -54,5 +54,6 @@ public class Category  implements Serializable {
     private int id;
     private String name;
     private String path;
-
+    private int isDelete = 0;
+    private String dateUpdate;
 }

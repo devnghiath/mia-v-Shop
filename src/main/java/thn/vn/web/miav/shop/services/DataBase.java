@@ -19,13 +19,28 @@ public class DataBase implements DataBaseService {
     }
 
     @Override
+    public <T> List<T> getAll(Class<T> clazz, int maxResult, int firstResult) {
+        return dataBaseDao.getAll(clazz,maxResult,firstResult);
+    }
+
+    @Override
     public <T> List<T> getAll(Class<T> clazz, String clause, ParameterSql... args) {
         return dataBaseDao.getAll(clazz, clause, args);
     }
 
     @Override
+    public <T> List<T> getAll(Class<T> clazz, String clause, int maxResult, int firstResult, ParameterSql... args) {
+        return dataBaseDao.getAll(clazz,clause,maxResult,firstResult,args);
+    }
+
+    @Override
     public <T> List<T> getAll(Class<T> clazz, String sql) {
         return dataBaseDao.getAll(clazz, sql);
+    }
+
+    @Override
+    public <T> List<T> getAll(Class<T> clazz, String sql, int maxResult, int firstResult) {
+        return dataBaseDao.getAll(clazz,sql,maxResult,firstResult);
     }
 
     @Override

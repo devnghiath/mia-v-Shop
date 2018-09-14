@@ -116,6 +116,7 @@ public class AImportView extends AdminControllerBase{
                 inventory.setProductName(product.getName());
                 inventory.setProductNameSecond(product.getNameSecond());
                 inventory.setAmountInventory(inventory.getAmountImport()+inventory.getAmountFirst()-inventory.getAmountExport());
+                inventory.setDateUpdate(Utils.DateNow(Utils.DATE_YYYYMMDDHHMMSS));
                 dataBaseService.save(inventory);
             }
             }

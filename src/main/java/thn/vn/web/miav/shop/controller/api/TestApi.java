@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import thn.vn.web.miav.shop.component.JwtTokenProvider;
 import thn.vn.web.miav.shop.constants.ResponseCode;
@@ -20,6 +21,7 @@ import thn.vn.web.miav.shop.services.DataBaseService;
 import thn.vn.web.miav.shop.utils.ParameterSql;
 import thn.vn.web.miav.shop.utils.Utils;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
@@ -71,4 +73,56 @@ public class TestApi {
         ApiResponse apiResponse = new ApiResponse(errorResponse,new LoginResponse(userApp.getUserName(),tokenId,userApp.getEmail()));
         return ResponseEntity.ok(apiResponse);
     }
+    @RequestMapping(value = "/error/api", method = RequestMethod.GET)
+    ResponseEntity<?> apiError(HttpServletRequest request){
+        String bearerToken = request.getHeader("Authorization");
+        String tokenId = "";
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            tokenId =  bearerToken.substring(7, bearerToken.length());
+        }
+        ErrorResponse errorResponse = new ErrorResponse(ResponseCode.ERROR, "hello");
+        ApiResponse apiResponse = new ApiResponse(errorResponse, null);
+        TokenApp tokenApp = dataBaseService.find(TokenApp.class,"tokenId=?",new ParameterSql[]{new ParameterSql(String.class,tokenId)});
+        if (tokenApp == null){
+            errorResponse.setErrorCode(ResponseCode.ERROR_NOT_AUTH);
+            errorResponse.setMessage("token ERROR_NOT_AUTH");
+            return ResponseEntity.ok(apiResponse);
+        } else {
+            int tokenError = tokenProvider.getErrorToken(tokenId);
+            switch (tokenError){
+                case 0:
+                    break;
+                case 1:
+                    errorResponse.setErrorCode(ResponseCode.ERROR_TOKEN_INVALID_SIG);
+                    errorResponse.setMessage("token khong hop le");
+                    break;
+                case 2:
+                    errorResponse.setErrorCode(ResponseCode.ERROR_TOKEN_INVALID);
+                    errorResponse.setMessage("token ERROR_TOKEN_INVALID");
+                    break;
+                case 3:
+                    errorResponse.setErrorCode(ResponseCode.ERROR_TOKEN_EXPIRED);
+                    errorResponse.setMessage("token ERROR_TOKEN_EXPIRED");
+                    break;
+                    default:
+                        errorResponse.setErrorCode(ResponseCode.ERROR_NOT_AUTH);
+                        errorResponse.setMessage("token ERROR_NOT_AUTH");
+                        break;
+
+            }
+            return ResponseEntity.ok(apiResponse);
+
+        }
+    }
+    private String getJwtFromRequest(HttpServletRequest request) {
+        String url_filter = request.getRequestURI();
+        String bearerToken = request.getHeader("Authorization");
+
+
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7, bearerToken.length());
+        }
+        return null;
+    }
+
 }

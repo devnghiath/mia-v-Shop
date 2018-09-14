@@ -35,6 +35,10 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             String url_filter = request.getRequestURI();
+            if (url_filter.startsWith("/error")){
+                filterChain.doFilter(request, response);
+                return;
+            }
             String jwt = getJwtFromRequest(request);
             TokenApp tokenApp = dataBaseService.find(TokenApp.class,"tokenId=?",new ParameterSql[]{new ParameterSql(String.class,jwt)});
             //tokenId

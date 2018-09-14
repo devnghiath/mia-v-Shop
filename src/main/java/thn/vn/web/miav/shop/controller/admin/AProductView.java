@@ -89,14 +89,18 @@ public class AProductView extends AdminControllerBase {
 //            formData.setImages("");
 //        }
         List<ImageUploadResponse> imageUploadResponseList = new ArrayList<>();
+
         if (request.getParameterMap().get("fileName").length>0){
+            String pathTemp = "/tempImage/"+getUserApp(request).getId()+"/";
+            String pathTo = "/productImage/";
             for (int i =0 ; i < request.getParameterMap().get("fileName").length;i++){
                 String fileName = request.getParameterMap().get("fileName")[i];
-                String pathTemp = "/tempImage/"+getUserApp(request).getId()+"/"+fileName;
-                String pathTo = "/productImage/"+fileName;
-                storageService.moveFile(pathTemp,pathTo);
-                imageUploadResponseList.add(new ImageUploadResponse(pathTo));
+                String temp = pathTemp+fileName;
+                String target = pathTo+fileName;
+                storageService.moveFile(temp,target);
+                imageUploadResponseList.add(new ImageUploadResponse(target));
             }
+            storageService.deleteAllFile(pathTemp);
         }
         Category category = dataBaseService.find(Category.class, "id=?", new ParameterSql[]{new ParameterSql(Integer.class, formData.getCategoryId())});
         Brand brand = dataBaseService.find(Brand.class, "id=?", new ParameterSql[]{new ParameterSql(Integer.class, formData.getBrandId())});

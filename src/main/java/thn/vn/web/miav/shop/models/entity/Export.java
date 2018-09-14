@@ -6,10 +6,6 @@ import java.io.Serializable;
 @Entity
 @Table(name = "export")
 public class Export implements Serializable {
-    @Id
-    private int no;
-    @Id
-    private String id;
 
     public int getNo() {
         return no;
@@ -19,8 +15,6 @@ public class Export implements Serializable {
         this.no = no;
     }
 
-    private int amount;
-    private int productId;
 
     public String getId() {
         return id;
@@ -70,9 +64,6 @@ public class Export implements Serializable {
         this.productNameSecond = productNameSecond;
     }
 
-    private String dateExport;
-    private String productName;
-    private String productNameSecond;
     public String getDateUpdate() {
         return dateUpdate;
     }
@@ -81,7 +72,6 @@ public class Export implements Serializable {
         this.dateUpdate = dateUpdate;
     }
 
-    private String dateUpdate;
 
     public int getIsDelete() {
         return isDelete;
@@ -91,8 +81,6 @@ public class Export implements Serializable {
         this.isDelete = isDelete;
     }
 
-    private int isDelete = 0;
-
     public int getPrice() {
         return price;
     }
@@ -101,7 +89,6 @@ public class Export implements Serializable {
         this.price = price;
     }
 
-    private int price;
     public int getTotalMoney() {
         return totalMoney;
     }
@@ -110,7 +97,7 @@ public class Export implements Serializable {
         this.totalMoney = totalMoney;
     }
 
-    private int totalMoney =0;
+
     public int getIsInventory() {
         return isInventory;
     }
@@ -119,9 +106,6 @@ public class Export implements Serializable {
         this.isInventory = isInventory;
     }
 
-    private int isInventory = 0;
-    private String note;
-
     public String getNote() {
         return note;
     }
@@ -129,4 +113,29 @@ public class Export implements Serializable {
     public void setNote(String note) {
         this.note = note;
     }
+
+    @Id
+    private int no;
+    @Id
+    private String id;
+    private int isDelete = 0;
+    private int amount;
+    private int productId;
+    private String dateExport;
+    private String productName;
+    private String productNameSecond;
+    private int isInventory = 0;
+    private String note;
+    private int price;
+    private int totalMoney = 0;
+    private String dateUpdate;
+    public int getIsWarehouse() {
+        return isWarehouse;
+    }
+
+    public void setIsWarehouse(int isWarehouse) {
+        this.isWarehouse = isWarehouse;
+    }
+
+    private int isWarehouse = 1;
 }

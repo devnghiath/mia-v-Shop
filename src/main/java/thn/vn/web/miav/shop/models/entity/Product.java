@@ -168,13 +168,13 @@ public class Product  implements Serializable {
     }
     private int priceRoot;
 
-    public int getIsInventory() {
-        return isInventory;
+    public int getIsWarehouse() {
+        return isWarehouse;
     }
 
-    public void setIsInventory(int isInventory) {
-        this.isInventory = isInventory;
+    public void setIsWarehouse(int isWarehouse) {
+        this.isWarehouse = isWarehouse;
     }
 
-    private int isInventory = 1;
+    private int isWarehouse = 1;
 }
