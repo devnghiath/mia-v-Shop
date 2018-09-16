@@ -3,9 +3,11 @@ package thn.vn.web.miav.shop.common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import thn.vn.web.miav.shop.component.JwtTokenProvider;
+import thn.vn.web.miav.shop.dao.ShopDBBuilder;
 import thn.vn.web.miav.shop.models.entity.TokenApp;
 import thn.vn.web.miav.shop.models.entity.UserApp;
 import thn.vn.web.miav.shop.services.DataBaseService;
+import thn.vn.web.miav.shop.services.ShopDBService;
 import thn.vn.web.miav.shop.utils.ParameterSql;
 import thn.vn.web.miav.shop.utils.Utils;
 
@@ -17,6 +19,8 @@ import java.util.List;
 public class AdminControllerBase extends ControllerBase{
     @Autowired
     protected DataBaseService dataBaseService;
+    @Autowired
+    protected ShopDBService shopDBService;
     @Autowired
     private JwtTokenProvider tokenProvider;
     @Override
@@ -52,6 +56,9 @@ public class AdminControllerBase extends ControllerBase{
                 break;
             }
         }
+        ShopDBBuilder shopDBBuilder = new ShopDBBuilder();
+        shopDBBuilder.select(TokenApp.class).setClause("tokenId=?").setParameterSql(new ParameterSql[]{new ParameterSql(String.class,bearerToken)});
+
         TokenApp tokenApp = dataBaseService.find(TokenApp.class,"tokenId=?",new ParameterSql[]{new ParameterSql(String.class,bearerToken)});
         int userId = tokenProvider.getUserIdFromJWT(tokenApp.getTokenValue());
         UserApp userApp = dataBaseService.find(UserApp.class,"id=?",new ParameterSql[]{new ParameterSql(Integer.class,userId)});
