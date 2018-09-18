@@ -4,7 +4,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
 
 public class BarcodeConfig {
     public static class Barcode {
-        private int dpi;
+        private int dpi = 160;
 
         private double height;
 
@@ -56,11 +56,11 @@ public class BarcodeConfig {
 
         public static BarcodeConfig.Barcode defaultConfig() {
             BarcodeConfig.Barcode barcodeConfig = new BarcodeConfig.Barcode();
-            barcodeConfig.setDpi(100);
-            barcodeConfig.setBarHeight(40);
-            barcodeConfig.setHeight(64);
-            barcodeConfig.setFontSize(18.0f);
-            barcodeConfig.setModuleWidth(UnitConv.in2mm(4.0f / barcodeConfig.getDpi()));
+            barcodeConfig.setDpi(160);
+            barcodeConfig.setBarHeight(27);
+            barcodeConfig.setHeight(27);
+            barcodeConfig.setFontSize(10.0f);
+            barcodeConfig.setModuleWidth(UnitConv.in2mm(1.0f / barcodeConfig.getDpi()));
             return barcodeConfig;
         }
     }

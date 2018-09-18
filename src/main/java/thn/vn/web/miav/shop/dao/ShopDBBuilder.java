@@ -62,4 +62,8 @@ public class ShopDBBuilder {
     public Object getEntity(ShopDBService shopDBService) {
         return shopDBService.getEntity(this);
     }
+    public void delete(ShopDBService shopDBService){
+        shopDBService.delete(this);
+    }
+
 }

@@ -64,9 +64,8 @@ public class ShopDBImpl implements ShopDBDao{
         if (list.size() ==0){
             return null;
         } else {
-            list.get(0);
+            return list.get(0);
         }
-        return null;
     }
     @Override
     public <T> void save(T entity) {
@@ -77,6 +76,35 @@ public class ShopDBImpl implements ShopDBDao{
             session.beginTransaction();
             session.saveOrUpdate(entity);
             session.getTransaction().commit();
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public void delete(ShopDBBuilder shopDBBuilder) {
+        Session session = null;
+        try {
+            session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+
+
+            StringBuilder strQuery = new StringBuilder();
+            strQuery.append("delete from " + shopDBBuilder.getClazz());
+            if (!Utils.isEmpty(shopDBBuilder.getClause())){
+                strQuery.append(" where " + shopDBBuilder.getClause());
+            }
+            Query query = session.createQuery(strQuery.toString());
+            if (shopDBBuilder.getArgs()!=null){
+                if (shopDBBuilder.getArgs().length>0 && !Utils.isEmpty(shopDBBuilder.getClause())){
+                    query=setParam(query,shopDBBuilder.getArgs());
+                }
+            }
+            session.beginTransaction();
+            int result = query.executeUpdate();
+            session.getTransaction().commit();
+
         } catch (Exception e) {
             throw e;
         } finally {

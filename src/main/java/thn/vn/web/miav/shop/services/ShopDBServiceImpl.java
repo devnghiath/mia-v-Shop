@@ -19,11 +19,16 @@ public class ShopDBServiceImpl implements ShopDBService {
 
     @Override
     public Object getEntity(ShopDBBuilder shopDBBuilder) {
-        return shopDBDao.getList(shopDBBuilder);
+        return shopDBDao.getEntity(shopDBBuilder);
     }
 
     @Override
     public <T> void save(T entity) {
         shopDBDao.save(entity);
+    }
+
+    @Override
+    public void delete(ShopDBBuilder shopDBBuilder) {
+        shopDBDao.delete(shopDBBuilder);
     }
 }

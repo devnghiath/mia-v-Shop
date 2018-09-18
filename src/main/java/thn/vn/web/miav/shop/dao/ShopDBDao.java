@@ -8,4 +8,5 @@ public interface ShopDBDao {
      List getList(ShopDBBuilder shopDBBuilder);
      Object getEntity(ShopDBBuilder shopDBBuilder);
      <T>void save(T entity);
+    void delete(ShopDBBuilder shopDBBuilder);
 }

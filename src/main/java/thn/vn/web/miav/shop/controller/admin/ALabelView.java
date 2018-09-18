@@ -6,8 +6,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import thn.vn.web.miav.shop.common.AdminControllerBase;
+import thn.vn.web.miav.shop.dao.ShopDBBuilder;
 import thn.vn.web.miav.shop.models.entity.BarcodeLabel;
+import thn.vn.web.miav.shop.models.entity.Product;
+import thn.vn.web.miav.shop.utils.ParameterSql;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -19,8 +23,12 @@ public class ALabelView extends AdminControllerBase {
     }
     @RequestMapping(value = {"","/"}, method = RequestMethod.GET)
     public String categoryMain(Model model) {
-        List<BarcodeLabel> list = dataBaseService.getAll(BarcodeLabel.class);
+        List<Product> list = new ArrayList<>();
+        Product product = (Product)ShopDBBuilder.newInstance().select(Product.class).setClause("id=?").setParameterSql(new ParameterSql[]{new ParameterSql(Integer.class,2)}).getEntity(shopDBService);
+        for (int i = 0; i <44;i++ ){
+            list.add(product);
+        }
         model.addAttribute("list", list);
-        return contentPage("list/label", model);
+        return "admin/fragments/list/printLabel";
     }
 }

@@ -1,7 +1,11 @@
 package thn.vn.web.miav.shop.services;
 
+import org.krysalis.barcode4j.ChecksumMode;
+import org.krysalis.barcode4j.TextAlignment;
 import org.krysalis.barcode4j.impl.AbstractBarcodeBean;
+import org.krysalis.barcode4j.impl.code128.EAN128Bean;
 import org.krysalis.barcode4j.impl.code39.Code39Bean;
+import org.krysalis.barcode4j.impl.upcean.EAN13Bean;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 import org.springframework.stereotype.Service;
 import thn.vn.web.miav.shop.config.BarcodeConfig;
@@ -17,19 +21,22 @@ import java.util.Base64;
 @Service
 public class BarcodeService {
     public byte[] barcode(String barcode, BarcodeConfig.Barcode barcodeConfig) throws IOException {
+//        barcode = "0123456789";
         AbstractBarcodeBean codeBean = new Code39Bean();
 
-        final int dpi = barcodeConfig.getDpi();
-
+        final int dpi = 160;
+        codeBean.doQuietZone(false);
 //        codeBean.setHeight(barcodeConfig.getHeight());
-//        codeBean.setBarHeight(barcodeConfig.getBarHeight());
-//        codeBean.setFontSize(barcodeConfig.getFontSize());
-//        codeBean.setModuleWidth(barcodeConfig.getModuleWidth());
-
+//        codeBean.setBarHeight(40.0);
+//        codeBean.setFontSize(10.0);
+        codeBean.setModuleWidth(barcodeConfig.getModuleWidth());
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
         BitmapCanvasProvider canvasProvider = new BitmapCanvasProvider(byteArrayOutputStream, "image/x-png", dpi, BufferedImage.TYPE_BYTE_BINARY, false, 0);
+//        canvasProvider.deviceCenteredText("hello",0.0,0,0.0,"Helvetica Neue",8);
+
         codeBean.generateBarcode(canvasProvider, barcode);
+
         canvasProvider.finish();
 
         return byteArrayOutputStream.toByteArray();

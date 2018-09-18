@@ -32,7 +32,7 @@
                         <td th:text="${item.categoryName}"></td>
                         <td th:text="${item.brandName}"></td>
                         <td th:text="${item.manufacturersName}"></td>
-                        <td ><img th:src="${'/label/'+item.label}"  /></td>
+                        <td ><img th:src="${'/label/'+item.label}" style="width: 34.77mm; height: 17.78mm;" /></td>
                         <td >
                             <button class="btn btn-primary btn-xs" data-toggle="modal"
                                     th:onclick="|showPopUpImage('/admin/product/image/${item.id}')|"><span

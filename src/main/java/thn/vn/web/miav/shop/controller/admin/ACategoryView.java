@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import thn.vn.web.miav.shop.common.AdminControllerBase;
+import thn.vn.web.miav.shop.dao.ShopDBBuilder;
 import thn.vn.web.miav.shop.models.entity.Category;
+import thn.vn.web.miav.shop.services.ShopDBService;
 import thn.vn.web.miav.shop.utils.ParameterSql;
 import thn.vn.web.miav.shop.utils.Utils;
 
@@ -23,14 +25,14 @@ public class ACategoryView extends AdminControllerBase {
 
     @RequestMapping(value = {""}, method = RequestMethod.GET)
     public String categoryMain(Model model) {
-        List<Category> list = dataBaseService.getAll(Category.class);
+        List<Category> list = ShopDBBuilder.newInstance().select(Category.class).getList(shopDBService);
         model.addAttribute("list", list);
         return contentPage("list/category", model);
     }
 
     @RequestMapping(value = {"/detail/{id}"}, method = RequestMethod.GET)
     public String ajaxDetail(Model model, @PathVariable int id) {
-        Category category = dataBaseService.find(Category.class, "id=?", new ParameterSql[]{new ParameterSql(Integer.class, id)});
+        Category category =(Category) ShopDBBuilder.newInstance().select(Category.class).setClause("id=?").setParameterSql(new ParameterSql[]{new ParameterSql(Integer.class, id)}).getEntity(shopDBService);
         model.addAttribute("category", category);
         return "admin/fragments/ajax/modal/category_update";
     }
@@ -38,7 +40,7 @@ public class ACategoryView extends AdminControllerBase {
 
     @RequestMapping(value = {"/popup"}, method = RequestMethod.GET)
     public String ajaxList(Model model) {
-        List<Category> list = dataBaseService.getAll(Category.class);
+        List<Category> list = ShopDBBuilder.newInstance().select(Category.class).getList(shopDBService);
         model.addAttribute("list", list);
         return "admin/fragments/ajax/modal/popupCategory";
     }
@@ -48,7 +50,7 @@ public class ACategoryView extends AdminControllerBase {
         if (action.equalsIgnoreCase("new")) {
             return contentPage("forms/category", model);
         } else if (action.equalsIgnoreCase("list")) {
-            List<Category> list = dataBaseService.getAll(Category.class);
+            List<Category> list = ShopDBBuilder.newInstance().select(Category.class).getList(shopDBService);
             model.addAttribute("list", list);
             return contentPage("list/category", model);
         } else {
@@ -57,8 +59,8 @@ public class ACategoryView extends AdminControllerBase {
     }
     @RequestMapping(value = {"/del/{id}"}, method = RequestMethod.GET)
     public String ajaxDelete(Model model, @PathVariable int id) {
-        dataBaseService.delete(Category.class, "id=?", new ParameterSql[]{new ParameterSql(Integer.class, id)});
-        List<Category> list = dataBaseService.getAll(Category.class);
+        ShopDBBuilder.newInstance().select(Category.class).setClause("id=?").setParameterSql(new ParameterSql[]{new ParameterSql(Integer.class, id)}).delete(shopDBService);
+        List<Category> list =  ShopDBBuilder.newInstance().select(Category.class).getList(shopDBService);
         model.addAttribute("list", list);
         return "admin/fragments/list/category";
     }
@@ -66,11 +68,11 @@ public class ACategoryView extends AdminControllerBase {
     public String viewUpdate(Model model, @PathVariable String action,@PathVariable int id) {
 
         if (action.equalsIgnoreCase("update")) {
-            Category category = dataBaseService.find(Category.class,"id=?",new ParameterSql[]{new ParameterSql(Integer.class,id)});
+            Category category =(Category) ShopDBBuilder.newInstance().select(Category.class).setClause("id=?").setParameterSql(new ParameterSql[]{new ParameterSql(Integer.class, id)}).getEntity(shopDBService);
             model.addAttribute("category",category);
             return contentPage("forms/category", model);
         } else {
-            List<Category> list = dataBaseService.getAll(Category.class);
+            List<Category> list =  ShopDBBuilder.newInstance().select(Category.class).getList(shopDBService);
             model.addAttribute("list", list);
             return contentPage("list/category", model);
         }
@@ -78,7 +80,7 @@ public class ACategoryView extends AdminControllerBase {
     @RequestMapping(value = "/{action}", method = RequestMethod.POST)
     public String updateCategory(@ModelAttribute(value = "formData") Category categoryForm, Model model, @PathVariable String action) {
         categoryForm.setDateUpdate(Utils.DateNow(Utils.DATE_FILE));
-        dataBaseService.save(categoryForm);
+        shopDBService.save(categoryForm);
         return "redirect:/admin/category";
     }
 }
