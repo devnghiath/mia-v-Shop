@@ -177,4 +177,13 @@ public class Product  implements Serializable {
     }
 
     private int isWarehouse = 1;
+    public String getManualCode() {
+        return manualCode;
+    }
+
+    public void setManualCode(String manualCode) {
+        this.manualCode = manualCode;
+    }
+
+    public String manualCode;
 }

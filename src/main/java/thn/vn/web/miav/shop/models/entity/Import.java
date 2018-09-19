@@ -14,11 +14,11 @@ public class Import  implements Serializable {
         this.id = id;
     }
 
-    public int getAmount() {
+    public float getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(float amount) {
         this.amount = amount;
     }
 
@@ -40,7 +40,7 @@ public class Import  implements Serializable {
 
     @Id
     private String id;
-    private int amount;
+    private float amount;
     @Id
     private int productId;
 
@@ -94,11 +94,11 @@ public class Import  implements Serializable {
     }
 
     private int price;
-    public int getTotalMoney() {
+    public float getTotalMoney() {
         return totalMoney;
     }
 
-    public void setTotalMoney(int totalMoney) {
+    public void setTotalMoney(float totalMoney) {
         this.totalMoney = totalMoney;
     }
 
@@ -112,7 +112,7 @@ public class Import  implements Serializable {
 
     @Id
     private int no;
-    private int totalMoney =0;
+    private float totalMoney =0;
 
     public int getIsInventory() {
         return isInventory;

@@ -1,0 +1,73 @@
+
+<div class="" xmlns:th="http://www.thymeleaf.org">
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h3>Đăng ký nhà kho</h3>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <!--/*@thymesVar id="item" type="thn.vn.web.miav.shop.models.entity.StoreHouse"*/-->
+                    <!--/*@thymesVar id="formData" type="thn.vn.web.miav.shop.models.entity.StoreHouse"*/-->
+                    <form class="form-horizontal form-label-left" action="#" th:action="@{/admin/storehouse/new}"
+                          th:object="${formData}" method="post" >
+                        <div th:if="${item}!=null">
+                            <input type="hidden"name="id" th:value="${item!=null?item.id:''}">
+                        </div>
+
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" >Tên Nhà kho <span
+                                    class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input  class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
+                                        data-validate-words="2"  placeholder="Tên Nhà kho "
+                                        required="required" type="text" name="name"  th:value="${item!=null?item.name:''}" >
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" >Địa chỉ Nhà kho <span
+                                    class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
+                                       data-validate-words="2" name="address"  th:value="${item!=null?item.address:''}" placeholder="Địa chỉ Nhà kho"
+                                       required="required" type="text" >
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" >Số điện thoại <span
+                                    class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input  class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
+                                       data-validate-words="2" name="phoneNumber"  th:value="${item!=null?item.phoneNumber:''}" placeholder="Số điện thoại"
+                                       required="required" type="text" >
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" >Người liên hệ <span
+                                    class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
+                                       data-validate-words="2" name="contactName"  th:value="${item!=null?item.contactName:''}"  placeholder="Người liên hệ"
+                                       required="required" type="text" >
+                            </div>
+                        </div>
+
+                        <!--<div class="ln_solid"></div>-->
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-3">
+                                <button type="submit" class="btn btn-primary">Cancel</button>
+                                <button id="send" type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

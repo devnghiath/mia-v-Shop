@@ -3,8 +3,11 @@
     <h3>Danh sách Danh mục</small></h3>
 </div>
 <div class="x_panel" xmlns:th="http://www.thymeleaf.org">
-    <button type="button" class="btn btn-info waves-effect" onclick="location.href='/admin/manufacturer/new'">Đăng
+    <button type="button" class="btn btn-info waves-effect" onclick="location.href='/admin/storehouse/new'">Đăng
         ký mới
+    </button>
+    <button type="button" class="btn btn-info waves-effect" onclick="location.href='/admin/storehouse_detail/new'">Đăng
+        ký Thực thể
     </button>
     <div class="row">
         <div class="col-md-12">
@@ -13,24 +16,19 @@
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Mã</th>
                         <th>Name</th>
-                        <th>tel</th>
-                        <th>address</th>
                         <th class="col-sm-1">Edit</th>
                         <th class="col-sm-1">Delete</th>
 
                     </tr>
                     </thead>
                     <tbody>
-                    <!--/*@thymesVar id="list" type="java.util.List<thn.vn.web.miav.shop.models.entity.Manufacturer>"*/-->
+                    <!--/*@thymesVar id="list" type="java.util.List<thn.vn.web.miav.shop.models.entity.StoreHouse>"*/-->
                     <tr th:each="item:${list}">
-                        <!--/*@thymesVar id="item" type="thn.vn.web.miav.shop.models.entity.Manufacturer"*/-->
+                        <!--/*@thymesVar id="item" type="thn.vn.web.miav.shop.models.entity.StoreHouse"*/-->
                         <td th:text="${item.id}"></td>
-                        <td th:text="${item.manualCode}"></td>
                         <td th:text="${item.name}"></td>
-                        <td th:text="${item.tel}"></td>
-                        <td th:text="${item.address}"></td>
+
                         <td>
                             <button class="btn btn-primary btn-xs" data-toggle="modal"
                                     th:onclick="|loadDynamicContentModal(${item.id})|"><span
@@ -82,7 +80,7 @@
 
 <script>
     function loadDynamicContentModal(id) {
-        window.location.href = "/admin/manufacturer/update/"+id;
+        window.location.href = "/admin/brand/update/"+id;
     }
     function confirmDelete(id) {
         var $modal = $('#delete');
@@ -90,7 +88,7 @@
         $('#deleteItem').on('click', function (event) {
             $.ajax(
                 {
-                    url: '/admin/manufacturer/del/' + id, success: function (result) {
+                    url: '/admin/brand/del/' + id, success: function (result) {
                         $("#content").html(result);
                         $('.modal-backdrop').remove();
                     }

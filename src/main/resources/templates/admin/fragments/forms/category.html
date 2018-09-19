@@ -1,7 +1,7 @@
 
-<div class="" xmlns:th="http://www.thymeleaf.org">
+<div class="">
 
-    <div class="row">
+    <div class="row" xmlns:th="http://www.thymeleaf.org">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
@@ -9,7 +9,8 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-
+                    <!--/*@thymesVar id="formData" type="thn.vn.web.miav.shop.models.entity.Category"*/-->
+                    <!--/*@thymesVar id="category" type="thn.vn.web.miav.shop.models.entity.Category"*/-->
                     <form class="form-horizontal form-label-left" action="#" th:action="@{/admin/category/new}"
                           th:object="${formData}" method="post" >
                         <div th:if="${category}!=null">
@@ -21,16 +22,21 @@
                                     class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div th:if="${category}!=null">
-                                    <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
-                                           data-validate-words="2" name="name" placeholder="Tên danh mục"
-                                           required="required" type="text"  th:value="${category.name}">
-                                </div>
-                                <div th:if="${category}==null">
-                                    <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
-                                           data-validate-words="2" name="name" placeholder="Tên danh mục"
-                                           required="required" type="text" >
-                                </div>
+                                <input id="name" class="form-control col-md-7 col-xs-12"
+                                       data-validate-length-range="6"
+                                       data-validate-words="2" name="name" placeholder="Tên danh mục"
+                                       required="required" type="text" th:value="${category!=null?category.name:''}">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="manualCode">Mã thủ công <span
+                                    class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="manualCode" class="form-control col-md-7 col-xs-12"
+                                       data-validate-length-range="6"
+                                       data-validate-words="2" name="manualCode" placeholder="Mã thủ công"
+                                       required="required" type="text" th:value="${category!=null?category.manualCode:''}">
                             </div>
                         </div>
                         <!--<div class="ln_solid"></div>-->

@@ -1,6 +1,7 @@
 package thn.vn.web.miav.shop.common;
 
 import org.springframework.ui.Model;
+import thn.vn.web.miav.shop.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,9 @@ public abstract class ControllerBase {
         listJs.clear();
         model.addAttribute("template","admin/fragments/"+contentHtmlName);
         return viewName("index-admin");
+    }
+    public String getDataUpdate(){
+        return  Utils.DateNow(Utils.DATE_FILE);
     }
     protected abstract List<String> initCssCommon();
     protected abstract List<String> initJavaScriptSrcCommon();

@@ -38,11 +38,11 @@ public class ImportHeader {
         this.dateUpdate = dateUpdate;
     }
 
-    public int getTotal() {
+    public float getTotal() {
         return total;
     }
 
-    public void setTotal(int total) {
+    public void setTotal(float total) {
         this.total = total;
     }
 
@@ -63,7 +63,7 @@ public class ImportHeader {
     }
 
     private String dateUpdate;
-    private int total;
+    private float total;
     private int userId;
     private String note;
 }

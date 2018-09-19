@@ -66,4 +66,14 @@ public class Manufacturer implements Serializable {
     }
 
     private int isDelete = 0;
+
+    public String getManualCode() {
+        return manualCode;
+    }
+
+    public void setManualCode(String manualCode) {
+        this.manualCode = manualCode;
+    }
+
+    public String manualCode;
 }

@@ -24,11 +24,11 @@ public class Export implements Serializable {
         this.id = id;
     }
 
-    public int getAmount() {
+    public float getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(float amount) {
         this.amount = amount;
     }
 
@@ -89,11 +89,11 @@ public class Export implements Serializable {
         this.price = price;
     }
 
-    public int getTotalMoney() {
+    public float getTotalMoney() {
         return totalMoney;
     }
 
-    public void setTotalMoney(int totalMoney) {
+    public void setTotalMoney(float totalMoney) {
         this.totalMoney = totalMoney;
     }
 
@@ -119,7 +119,7 @@ public class Export implements Serializable {
     @Id
     private String id;
     private int isDelete = 0;
-    private int amount;
+    private float amount;
     private int productId;
     private String dateExport;
     private String productName;
@@ -127,7 +127,7 @@ public class Export implements Serializable {
     private int isInventory = 0;
     private String note;
     private int price;
-    private int totalMoney = 0;
+    private float totalMoney = 0;
     private String dateUpdate;
     public int getIsWarehouse() {
         return isWarehouse;

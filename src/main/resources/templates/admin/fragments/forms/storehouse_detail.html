@@ -1,0 +1,162 @@
+
+<div class="" xmlns:th="http://www.thymeleaf.org">
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h3>Đăng ký thực thể của kho</h3>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <!--/*@thymesVar id="item" type="thn.vn.web.miav.shop.models.entity.StoreHouseDetail"*/-->
+                    <!--/*@thymesVar id="formData" type="thn.vn.web.miav.shop.models.entity.StoreHouseDetail"*/-->
+                    <form class="form-horizontal form-label-left" action="#" th:action="@{/admin/storehouse_detail/new}"
+                          th:object="${formData}" method="post" >
+                        <input type="hidden"name="rootId" id="rootId" value="">
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12"> <span
+                                    class="required"></span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input class="btn btn-success col-md-7 col-xs-12" type="button" value="Chọn nhà kho"
+                                       th:onclick="|loadPopup('/admin/storehouse/popup')|">
+                            </div>
+
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" >Tên Nhà kho <span
+                                    class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input  class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
+                                        data-validate-words="2"  placeholder="Tên Nhà kho "
+                                        required="required" type="text" id="name"readonly >
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" >Địa chỉ Nhà kho <span
+                                    class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
+                                       data-validate-words="2" id="address"  placeholder="Địa chỉ Nhà kho"
+                                       required="required" type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" >Số điện thoại <span
+                                    class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input  class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
+                                       data-validate-words="2" id="phoneNumber"   placeholder="Số điện thoại"
+                                       required="required" type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" >Người liên hệ <span
+                                    class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
+                                       data-validate-words="2" id="contactName"   placeholder="Người liên hệ"
+                                       required="required" type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" >Tên Thực thể <span
+                                    class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input  class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
+                                        data-validate-words="2"  placeholder="Tên Thực thể"
+                                        required="required" type="text" name="name" >
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12"> <span
+                                    class="required"></span>
+                            </label>
+                            <div id ="choice_parent" class="col-md-6 col-sm-6 col-xs-12">
+
+                            </div>
+                            <div id ="path" class="col-md-6 col-sm-6 col-xs-12">
+
+                            </div>
+                        </div>
+                        <!--<div class="ln_solid"></div>-->
+
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-3">
+                                <button type="submit" class="btn btn-primary">Cancel</button>
+                                <button id="send" type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+</div>
+<script>
+    function loadPopup(url) {
+        var $modal = $('#popup');
+        $modal.modal('show');
+
+        $.ajax({
+            url: url,
+            success: function (result) {
+                $("#popup").html(result);
+            }
+
+        })
+
+    }
+    function loadPopupTree(url) {
+        var $modal = $('#popup');
+        $modal.modal('show');
+
+        $.ajax({
+            url: url,
+            success: function (result) {
+                $("#popup").html(result);
+            }
+
+        })
+
+    }
+    function treeSelect(id){
+        $.ajax({
+                url: '/admin/storehouse_detail/ajax/item/'+id,
+                success: function (result) {
+                    console.log(result);
+
+                    var input = "<input type=\"hidden\"name=\"path\" value=\""+result.id+"\">";
+                    $('#path').html(input)
+
+                }
+            }
+        );
+    }
+    function selectItem(id) {
+        $.ajax({
+                url: '/admin/storehouse/ajax/item/'+id,
+                success: function (result) {
+                    console.log(result);
+                    var storehouse = result.storehouse;
+                    var storeHouseDetail = result.storeHouseDetail;
+                    $('#name').val(storehouse.name);
+                    $('#rootId').val(storehouse.id);
+                    $('#address').val(storehouse.address);
+                    $('#phoneNumber').val(storehouse.phoneNumber);
+                    $('#contactName').val(storehouse.contactName);
+                    $('#choice_parent').html('<input class="btn btn-success col-md-7 col-xs-12" type="button" value="Chọn thực thể cha"\n' +
+                        '                                       onclick="loadPopupTree(\'/admin/storehouse_detail/tree/'+storeHouseDetail.id+'\')">')
+                }
+            }
+        );
+    }
+</script>

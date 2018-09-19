@@ -87,4 +87,5 @@ public class SysDataApi extends RestControllerBase {
         }
         return ResponseEntity.ok(apiResponse);
     }
+
 }

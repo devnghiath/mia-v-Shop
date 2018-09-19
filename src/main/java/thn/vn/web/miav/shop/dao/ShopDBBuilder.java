@@ -8,12 +8,35 @@ import java.util.List;
 public class ShopDBBuilder {
     private Class<Object> clazz;
     private String clause;
-    private  ParameterSql[] args;
-    private int maxResult= 0;
+    private ParameterSql[] args;
+    private int maxResult = 0;
     private int firstResult = 0;
-    public static ShopDBBuilder newInstance(){
+
+    public static ShopDBBuilder newInstance() {
         return new ShopDBBuilder();
     }
+
+    public static ShopDBBuilder newInstance(Class clazz, String clause, ParameterSql... args) {
+        return new ShopDBBuilder(clazz, clause, args);
+    }
+
+    public static ShopDBBuilder newInstance(Class clazz) {
+        return new ShopDBBuilder(clazz);
+    }
+
+    public ShopDBBuilder() {
+    }
+
+    public ShopDBBuilder(Class clazz) {
+        this.select(clazz);
+    }
+
+    public ShopDBBuilder(Class clazz, String clause, ParameterSql... args) {
+        this.select(clazz);
+        this.setClause(clause);
+        this.setParameterSql(args);
+    }
+
     public ShopDBBuilder setFirstResult(int firstResult) {
         this.firstResult = firstResult;
         return this;
@@ -21,17 +44,20 @@ public class ShopDBBuilder {
 
     public ShopDBBuilder setMaxResult(int maxResult) {
         this.maxResult = maxResult;
-        return this ;
+        return this;
     }
-    public ShopDBBuilder select(Class clazz){
+
+    public ShopDBBuilder select(Class clazz) {
         this.clazz = clazz;
         return this;
     }
-    public ShopDBBuilder setClause(String clause){
+
+    public ShopDBBuilder setClause(String clause) {
         this.clause = clause;
         return this;
     }
-    public ShopDBBuilder setParameterSql(ParameterSql... args){
+
+    public ShopDBBuilder setParameterSql(ParameterSql... args) {
         this.args = args;
         return this;
     }
@@ -59,10 +85,12 @@ public class ShopDBBuilder {
     public List getList(ShopDBService shopDBService) {
         return shopDBService.getList(this);
     }
+
     public Object getEntity(ShopDBService shopDBService) {
         return shopDBService.getEntity(this);
     }
-    public void delete(ShopDBService shopDBService){
+
+    public void delete(ShopDBService shopDBService) {
         shopDBService.delete(this);
     }
 

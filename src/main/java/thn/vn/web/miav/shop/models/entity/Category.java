@@ -48,7 +48,15 @@ public class Category  implements Serializable {
     public void setPath(String path) {
         this.path = path;
     }
+    public String getManualCode() {
+        return manualCode;
+    }
 
+    public void setManualCode(String manualCode) {
+        this.manualCode = manualCode;
+    }
+
+    public String manualCode;
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
