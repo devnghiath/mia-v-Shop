@@ -4,47 +4,63 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
-        .center {
-            width: 52.5mm;
-            height: 27mm;
-            position: relative;
-            display: flex;
-        }
+        body {
 
-         img {
             margin: 0;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            -ms-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
+            padding: 0;
+            text-align: center; /* !!! */
         }
-
-        .boxLable{
-            width: 52.5mm;
-            height: 27mm;
-            font-size: 8px!important;
-
+        .page_print {
+            /*display: table;*/
+            margin: 0 auto;
+            width: 210mm;
+            height: 297mm;
+            background-color: #00aeef;
         }
-        .nameProduct{
-            padding-left: 35px;
-            padding-top: 7px;
+        .label_item{
+            width: 50mm;
+            height: 28mm;
+            float: left;
+            /*display: inline-block;*/
+            display: table;
+            position: relative;
+            box-sizing: border-box;
+            border: 0.5px solid #000000;
+        }
+        .label_content_table {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+        }
+        .label_content{
+            text-align: left;
+            font-size: 10px;
+            width: 34.77mm;background-color: #FFF;
+            margin: 0 auto;
+        }
+        .label_content img{
+            width: 100%;
+        }
+        .label_items{
+            padding-top: 8.5mm;
+            padding-left: 5mm;
         }
     </style>
 </head>
-<body style="width: 210mm; height: 297mm;">
+<body style="margin-top: 0px;margin-left: 0px">
 <!--/*@thymesVar id="list" type="java.util.List<thn.vn.web.miav.shop.models.entity.Product>"*/-->
 <!--/*@thymesVar id="item" type="thn.vn.web.miav.shop.models.entity.Product"*/-->
-<div class="center" style="width: 210mm; height: 297mm;display:inline; float: left">
-    <div class="center" th:each="item:${list}"
-         style="width: 52.5mm; height: 27mm;float: left; text-align: left;display: flex;align-items: center">
-        <div class="boxLable">
-            <div class="nameProduct"> name product</div>
-            <img class="boxLable"
-                    th:src="${'/label/'+item.label}"style="width: 34.77mm; height: 17.78mm;"/>
+<div class="page_print">
+    <div class="label_items">
+        <div class="label_item" th:each="item:${list}">
+            <div class="label_content_table">
+                <div class="label_content">
+                    <b th:text="${#strings.toLowerCase(item.name)}">
+                    </b>
+                    <img  src="/label/20001 OOC 300" >
+                </div>
+            </div>
         </div>
-        <!--<div class="nameProduct">ten san pham</div>-->
-
     </div>
 </div>
 </body>

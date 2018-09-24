@@ -40,10 +40,17 @@ public class Attributes  implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+    public int getNo() {
+        return no;
+    }
 
+    public void setNo(int no) {
+        this.no = no;
+    }
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
     private String name;
+    private int no = 1;
 
 }

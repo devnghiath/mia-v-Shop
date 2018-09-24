@@ -51,7 +51,7 @@ public abstract class ControllerBase {
         return viewName("index-admin");
     }
     public String getDataUpdate(){
-        return  Utils.DateNow(Utils.DATE_FILE);
+        return  Utils.DateNow(Utils.DATE_FILE_NOW);
     }
     protected abstract List<String> initCssCommon();
     protected abstract List<String> initJavaScriptSrcCommon();

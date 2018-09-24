@@ -2,6 +2,7 @@ package thn.vn.web.miav.shop.models.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import java.io.Serializable;
 
@@ -51,9 +52,19 @@ public class AttributesDetail  implements Serializable {
         this.attributesValueName = attributesValueName;
     }
 
+    public int getNo() {
+        return no;
+    }
+
+    public void setNo(int no) {
+        this.no = no;
+    }
+    @Id
+    private int no;
     @Id
     private int attributesId;
-    @Id
+
+    @Lob
     private int attributesValue;
     private String attributesValueName;
 }

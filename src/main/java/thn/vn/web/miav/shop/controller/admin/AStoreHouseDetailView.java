@@ -38,17 +38,17 @@ public class AStoreHouseDetailView extends AdminControllerBase {
     }
     @RequestMapping(value = {"/tree/{rootId}"}, method = RequestMethod.GET)
     public String ajaxTreeList(Model model, @PathVariable int rootId) {
-        ShopDBBuilder shopDBBuilder = new ShopDBBuilder();
+        ShopDBBuilder shopDBBuilder = new ShopDBBuilder(shopDBService);
         shopDBBuilder.select(StoreHouseDetail.class);
         shopDBBuilder.setClause("rootId=?");
         shopDBBuilder.setParameterSql(new ParameterSql[]{new ParameterSql(Integer.class,rootId)});
-        List<StoreHouseDetail> list = shopDBBuilder.getList(shopDBService);
+        List<StoreHouseDetail> list = shopDBBuilder.getList();
         model.addAttribute("list", list);
         return "admin/fragments/ajax/modal/popupStorehouseTree";
     }
     @RequestMapping(value = {"/ajax/item/{id}"}, method = RequestMethod.GET)
     public ResponseEntity<?> ajaxDetailItem(@PathVariable int id){
-        StoreHouseDetail storeHouseDetail =(StoreHouseDetail)ShopDBBuilder.newInstance().select(StoreHouseDetail.class).setClause("id=?").setParameterSql(new ParameterSql[]{new ParameterSql(Integer.class, id)}).getEntity(shopDBService);
+        StoreHouseDetail storeHouseDetail =(StoreHouseDetail)ShopDBBuilder.newInstance(shopDBService).select(StoreHouseDetail.class).setClause("id=?").setParameterSql(new ParameterSql[]{new ParameterSql(Integer.class, id)}).getEntity();
         return new ResponseEntity<>(storeHouseDetail, HttpStatus.OK);
     }
     @RequestMapping(value = "/{action}", method = RequestMethod.POST)
@@ -57,7 +57,7 @@ public class AStoreHouseDetailView extends AdminControllerBase {
         List<Integer> path = new ArrayList<>();
         List<String> pathName = new ArrayList<>();
         if (formData.getPath()==null){
-            StoreHouseDetail storeHouseDetail = (StoreHouseDetail)ShopDBBuilder.newInstance().select(StoreHouseDetail.class).setClause("storeHouseId=?").setParameterSql(new ParameterSql[]{new ParameterSql(Integer.class, formData.getRootId())}).getEntity(shopDBService);
+            StoreHouseDetail storeHouseDetail = (StoreHouseDetail)ShopDBBuilder.newInstance(shopDBService).select(StoreHouseDetail.class).setClause("storeHouseId=?").setParameterSql(new ParameterSql[]{new ParameterSql(Integer.class, formData.getRootId())}).getEntity();
             storeHouseDetail.setIsParent(1);
             shopDBService.save(storeHouseDetail);
             path.add(storeHouseDetail.getId());
@@ -66,7 +66,7 @@ public class AStoreHouseDetailView extends AdminControllerBase {
             pathName.add(formData.getName());
             formData.setPathName(new Gson().toJson(pathName));
         } else {
-            StoreHouseDetail storeHouseDetail = (StoreHouseDetail)ShopDBBuilder.newInstance().select(StoreHouseDetail.class).setClause("id=?").setParameterSql(new ParameterSql[]{new ParameterSql(Integer.class, Integer.parseInt(formData.getPath()))}).getEntity(shopDBService);
+            StoreHouseDetail storeHouseDetail = (StoreHouseDetail)ShopDBBuilder.newInstance(shopDBService).select(StoreHouseDetail.class).setClause("id=?").setParameterSql(new ParameterSql[]{new ParameterSql(Integer.class, Integer.parseInt(formData.getPath()))}).getEntity();
             ArrayList<Integer> listPath= (ArrayList<Integer>) new Gson(). fromJson(storeHouseDetail.getPath(),
                     new TypeToken<ArrayList<Integer>>() {
                     }.getType());

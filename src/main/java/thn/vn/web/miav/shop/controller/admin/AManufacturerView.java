@@ -27,7 +27,7 @@ public class AManufacturerView extends AdminControllerBase {
 
     @RequestMapping(value = {"", "/manufacturer/"}, method = RequestMethod.GET)
     public String list(Model model) {
-        List<Manufacturer> list = ShopDBBuilder.newInstance(Manufacturer.class).getList(shopDBService);
+        List<Manufacturer> list = ShopDBBuilder.newInstance(shopDBService,Manufacturer.class).getList();
         model.addAttribute("list", list);
         return contentPage("list/manufacturer", model);
     }
@@ -38,7 +38,7 @@ public class AManufacturerView extends AdminControllerBase {
         if (action.equalsIgnoreCase("new")) {
             return contentPage("forms/manufacturer", model);
         } else if (action.equalsIgnoreCase("list")) {
-            List<Brand> list = ShopDBBuilder.newInstance(Manufacturer.class).getList(shopDBService);
+            List<Brand> list = ShopDBBuilder.newInstance(shopDBService,Manufacturer.class).getList();
             model.addAttribute("list", list);
             return contentPage("list/manufacturer", model);
         } else {
@@ -55,8 +55,8 @@ public class AManufacturerView extends AdminControllerBase {
     }
     @RequestMapping(value = {"/del/{id}"}, method = RequestMethod.GET)
     public String ajaxDelete(Model model, @PathVariable int id) {
-        ShopDBBuilder.newInstance(Manufacturer.class,"id=?",new ParameterSql[]{new ParameterSql(Integer.class, id)}).delete(shopDBService);
-        List<Manufacturer> list = ShopDBBuilder.newInstance(Manufacturer.class).getList(shopDBService);
+        ShopDBBuilder.newInstance(shopDBService,Manufacturer.class,"id=?",new ParameterSql[]{new ParameterSql(Integer.class, id)}).delete();
+        List<Manufacturer> list = ShopDBBuilder.newInstance(shopDBService,Manufacturer.class).getList();
         model.addAttribute("list", list);
         return "admin/fragments/list/manufacturer";
     }
@@ -64,18 +64,18 @@ public class AManufacturerView extends AdminControllerBase {
     public String viewUpdate(Model model, @PathVariable String action,@PathVariable int id) {
 
         if (action.equalsIgnoreCase("update")) {
-            Manufacturer manufacturer = (Manufacturer)ShopDBBuilder.newInstance(Manufacturer.class,"id=?",new ParameterSql[]{new ParameterSql(Integer.class,id)}).getEntity(shopDBService);
+            Manufacturer manufacturer = (Manufacturer)ShopDBBuilder.newInstance(shopDBService,Manufacturer.class,"id=?",new ParameterSql[]{new ParameterSql(Integer.class,id)}).getEntity();
             model.addAttribute("manufacturer",manufacturer);
             return contentPage("forms/manufacturer", model);
         } else {
-            List<Category> list = ShopDBBuilder.newInstance(Category.class).getList(shopDBService);
+            List<Category> list = ShopDBBuilder.newInstance(shopDBService,Category.class).getList();
             model.addAttribute("list", list);
             return contentPage("list/manufacturer", model);
         }
     }
     @RequestMapping(value = {"/popup"}, method = RequestMethod.GET)
     public String ajaxList(Model model) {
-        List<Manufacturer> list = ShopDBBuilder.newInstance(Manufacturer.class).getList(shopDBService);
+        List<Manufacturer> list = ShopDBBuilder.newInstance(shopDBService,Manufacturer.class).getList();
         model.addAttribute("list", list);
         return "admin/fragments/ajax/modal/popupManufacturer";
     }

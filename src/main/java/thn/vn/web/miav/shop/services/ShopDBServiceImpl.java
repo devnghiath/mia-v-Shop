@@ -1,5 +1,6 @@
 package thn.vn.web.miav.shop.services;
 
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import thn.vn.web.miav.shop.dao.ShopDBBuilder;
@@ -30,5 +31,10 @@ public class ShopDBServiceImpl implements ShopDBService {
     @Override
     public void delete(ShopDBBuilder shopDBBuilder) {
         shopDBDao.delete(shopDBBuilder);
+    }
+
+    @Override
+    public Session getSession() {
+        return shopDBDao.getSession();
     }
 }

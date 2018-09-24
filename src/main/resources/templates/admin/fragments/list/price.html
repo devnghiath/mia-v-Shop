@@ -2,42 +2,38 @@
 <div class="title_left" xmlns:th="http://www.thymeleaf.org">
     <h3>Danh sách Danh mục</small></h3>
 </div>
-<div class="x_panel">
+<div class="x_panel" xmlns:th="http://www.thymeleaf.org">
     <button type="button" class="btn btn-info waves-effect" onclick="location.href='/admin/price/new'">Đăng
         ký mới
     </button>
     <div class="row">
         <div class="col-md-12">
             <div class="table-responsive">
-                <table class="table table-striped jambo_table bulk_action">
+                <table class="table table-striped jambo_table bulk_action table-bordered">
                     <thead>
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
-                        <th>price</th>
+                        <th>Giá nhập</th>
+                        <th>Giá bán</th>
                         <th class="col-sm-1">Edit</th>
-                        <th class="col-sm-1">Delete</th>
 
                     </tr>
                     </thead>
                     <tbody>
-                    <!--/*@thymesVar id="list" type="java.util.List<thn.vn.web.miav.shop.models.entity.Brand>"*/-->
+                    <!--/*@thymesVar id="list" type="java.util.List<thn.vn.web.miav.shop.models.entity.Product>"*/-->
                     <tr th:each="item:${list}">
-                        <!--/*@thymesVar id="item" type="thn.vn.web.miav.shop.models.entity.Price"*/-->
-                        <td th:text="${item.productId}"></td>
-                        <td th:text="${item.productName+' ('+item.productNameSecond+')'}"></td>
+                        <!--/*@thymesVar id="item" type="thn.vn.web.miav.shop.models.entity.Product"*/-->
+                        <td th:text="${item.id}"></td>
+                        <td th:text="${item.name+' ('+item.nameSecond+')'}"></td>
+                        <td th:text="${item.priceRoot}"></td>
                         <td th:text="${item.priceSell}"></td>
-
                         <td>
                             <button class="btn btn-primary btn-xs" data-toggle="modal"
-                                    th:onclick="|loadDynamicContentModal(${item.productId})|"><span
+                                    th:onclick="|loadDynamicContentModal(${item.id})|"><span
                                     class="glyphicon glyphicon-pencil"></span></button>
                         </td>
-                        <td>
-                            <button class="btn btn-danger btn-xs" data-toggle="modal"
-                                    th:onclick="|confirmDelete(${item.productId})|"><span
-                                    class="glyphicon glyphicon-trash"></span></button>
-                        </td>
+
                     </tr>
                     </tbody>
                 </table>

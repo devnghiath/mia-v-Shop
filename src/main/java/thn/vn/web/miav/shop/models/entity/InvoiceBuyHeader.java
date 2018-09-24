@@ -1,30 +1,29 @@
 package thn.vn.web.miav.shop.models.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "import_header")
-public class ImportHeader {
+@Table(name = "invoice_buy_header")
+public class InvoiceBuyHeader {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    int id;
 
     public String getDateImport() {
-        return dateImport;
+        return dateBuy;
     }
 
     public void setDateImport(String dateImport) {
-        this.dateImport = dateImport;
+        this.dateBuy = dateImport;
     }
 
-    private String dateImport;
+    private String dateBuy;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -62,8 +61,26 @@ public class ImportHeader {
         this.note = note;
     }
 
+    public void setIsComplete(int isComplete) {
+        this.isComplete = isComplete;
+    }
+
+    public int getIsComplete() {
+        return isComplete;
+    }
+
+    public void setIsPay(int isPay) {
+        this.isPay = isPay;
+    }
+
+    public int getIsPay() {
+        return isPay;
+    }
+
     private String dateUpdate;
     private float total;
     private int userId;
     private String note;
+    private int isComplete = 0;
+    private int isPay = 0;
 }

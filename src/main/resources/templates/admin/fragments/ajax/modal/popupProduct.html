@@ -6,12 +6,13 @@
             <h4 class="modal-title custom_align" id="Heading">Chọn sản phẩm</h4>
         </div>
         <div class="modal-body">
-            <table class="table table-striped jambo_table bulk_action">
+            <table class="table table-striped jambo_table bulk_action table-bordered">
                 <thead>
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
                     <th>Giá gốc</th>
+                    <th>Giá Bán</th>
                     <th>Select</th>
                 </tr>
                 </thead>
@@ -23,6 +24,7 @@
 
                     <td th:text="${item.name+' ('+item.nameSecond+')'}"></td>
                     <td th:text="${item.priceRoot}"></td>
+                    <td th:text="${item.priceSell}"></td>
                     <td>
                         <button th:onclick="|selectItem('${item.name+' ('+item.nameSecond+')'}','${item.id}','${item.priceRoot}',0)|" type="button"  data-dismiss="modal" class="btn btn-info waves-effect" id="select_item" th:value="${item.name}">Select
                         </button>

@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="table-responsive">
-                <table class="table table-striped jambo_table bulk_action">
+                <table class="table table-striped jambo_table bulk_action table-bordered">
                     <thead>
                     <tr>
                         <th>ID</th>
@@ -32,7 +32,7 @@
                         <td th:text="${item.categoryName}"></td>
                         <td th:text="${item.brandName}"></td>
                         <td th:text="${item.manufacturersName}"></td>
-                        <td ><img th:src="${'/label/'+item.label}" style="width: 34.77mm; height: 17.78mm;" /></td>
+                        <td ><img th:src="${'/label/'+item.manualCode}" style="width: 34.77mm; height: 17.78mm;" /></td>
                         <td >
                             <button class="btn btn-primary btn-xs" data-toggle="modal"
                                     th:onclick="|showPopUpImage('/admin/product/image/${item.id}')|"><span

@@ -1,16 +1,18 @@
 package thn.vn.web.miav.shop.models.entity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "import")
-public class Import  implements Serializable {
-    public String getId() {
+@Table(name = "invoice_buy_Detail")
+public class InvoiceBuyDetail implements Serializable {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -31,15 +33,15 @@ public class Import  implements Serializable {
     }
 
     public String getDateImport() {
-        return dateImport;
+        return dateBuy;
     }
 
     public void setDateImport(String dateImport) {
-        this.dateImport = dateImport;
+        this.dateBuy = dateImport;
     }
 
     @Id
-    private String id;
+    private int id;
     private float amount;
     @Id
     private int productId;
@@ -62,7 +64,7 @@ public class Import  implements Serializable {
 
     private String productName;
     private String productNameSecond;
-    private String dateImport;
+    private String dateBuy;
 
 
     public String getDateUpdate() {

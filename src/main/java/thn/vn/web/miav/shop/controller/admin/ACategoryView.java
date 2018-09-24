@@ -25,14 +25,14 @@ public class ACategoryView extends AdminControllerBase {
 
     @RequestMapping(value = {""}, method = RequestMethod.GET)
     public String categoryMain(Model model) {
-        List<Category> list = ShopDBBuilder.newInstance(Category.class).getList(shopDBService);
+        List<Category> list = ShopDBBuilder.newInstance(shopDBService,Category.class).getList();
         model.addAttribute("list", list);
         return contentPage("list/category", model);
     }
 
     @RequestMapping(value = {"/detail/{id}"}, method = RequestMethod.GET)
     public String ajaxDetail(Model model, @PathVariable int id) {
-        Category category =(Category) ShopDBBuilder.newInstance(Category.class,"id=?",new ParameterSql[]{new ParameterSql(Integer.class, id)}).getEntity(shopDBService);
+        Category category =(Category) ShopDBBuilder.newInstance(shopDBService,Category.class,"id=?",new ParameterSql[]{new ParameterSql(Integer.class, id)}).getEntity();
         model.addAttribute("category", category);
         return "admin/fragments/ajax/modal/category_update";
     }
@@ -40,7 +40,7 @@ public class ACategoryView extends AdminControllerBase {
 
     @RequestMapping(value = {"/popup"}, method = RequestMethod.GET)
     public String ajaxList(Model model) {
-        List<Category> list = ShopDBBuilder.newInstance(Category.class).getList(shopDBService);
+        List<Category> list = ShopDBBuilder.newInstance(shopDBService,Category.class).getList();
         model.addAttribute("list", list);
         return "admin/fragments/ajax/modal/popupCategory";
     }
@@ -50,7 +50,7 @@ public class ACategoryView extends AdminControllerBase {
         if (action.equalsIgnoreCase("new")) {
             return contentPage("forms/category", model);
         } else if (action.equalsIgnoreCase("list")) {
-            List<Category> list = ShopDBBuilder.newInstance(Category.class).getList(shopDBService);
+            List<Category> list = ShopDBBuilder.newInstance(shopDBService,Category.class).getList();
             model.addAttribute("list", list);
             return contentPage("list/category", model);
         } else {
@@ -59,8 +59,8 @@ public class ACategoryView extends AdminControllerBase {
     }
     @RequestMapping(value = {"/del/{id}"}, method = RequestMethod.GET)
     public String ajaxDelete(Model model, @PathVariable int id) {
-        ShopDBBuilder.newInstance(Category.class,"id=?",new ParameterSql[]{new ParameterSql(Integer.class, id)}).delete(shopDBService);
-        List<Category> list =  ShopDBBuilder.newInstance(Category.class).getList(shopDBService);
+        ShopDBBuilder.newInstance(shopDBService,Category.class,"id=?",new ParameterSql[]{new ParameterSql(Integer.class, id)}).delete();
+        List<Category> list =  ShopDBBuilder.newInstance(shopDBService,Category.class).getList();
         model.addAttribute("list", list);
         return "admin/fragments/list/category";
     }
@@ -68,11 +68,11 @@ public class ACategoryView extends AdminControllerBase {
     public String viewUpdate(Model model, @PathVariable String action,@PathVariable int id) {
 
         if (action.equalsIgnoreCase("update")) {
-            Category category =(Category) ShopDBBuilder.newInstance(Category.class,"id=?",new ParameterSql[]{new ParameterSql(Integer.class, id)}).getEntity(shopDBService);
+            Category category =(Category) ShopDBBuilder.newInstance(shopDBService,Category.class,"id=?",new ParameterSql[]{new ParameterSql(Integer.class, id)}).getEntity();
             model.addAttribute("category",category);
             return contentPage("forms/category", model);
         } else {
-            List<Category> list =  ShopDBBuilder.newInstance(Category.class).getList(shopDBService);
+            List<Category> list =  ShopDBBuilder.newInstance(shopDBService,Category.class).getList();
             model.addAttribute("list", list);
             return contentPage("list/category", model);
         }

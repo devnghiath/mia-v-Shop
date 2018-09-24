@@ -23,7 +23,7 @@ public class ABrandsView extends AdminControllerBase {
     }
     @RequestMapping(value = {"","/brand/"},method = RequestMethod.GET)
     public String list(Model model){
-        List<Brand> list = ShopDBBuilder.newInstance().select(Brand.class).getList(shopDBService);
+        List<Brand> list = ShopDBBuilder.newInstance(shopDBService,Brand.class).getList();
         model.addAttribute("list",list);
         return contentPage("list/brand",model);
     }
@@ -32,7 +32,7 @@ public class ABrandsView extends AdminControllerBase {
         if (action.equalsIgnoreCase("new")){
             return contentPage("forms/brand",model);
         } else if (action.equalsIgnoreCase("list")){
-            List<Brand> list = ShopDBBuilder.newInstance().select(Brand.class).getList(shopDBService);
+            List<Brand> list = ShopDBBuilder.newInstance(shopDBService,Brand.class).getList();
             model.addAttribute("list",list);
             return contentPage("brand",model);
         } else {
@@ -44,11 +44,11 @@ public class ABrandsView extends AdminControllerBase {
     public String viewUpdate(Model model, @PathVariable String action,@PathVariable int id) {
 
         if (action.equalsIgnoreCase("update")) {
-            Brand brand = dataBaseService.find(Brand.class,"id=?",new ParameterSql[]{new ParameterSql(Integer.class,id)});
+            Brand brand = (Brand)ShopDBBuilder.newInstance(shopDBService,Brand.class,"id=?",new ParameterSql[]{new ParameterSql(Integer.class,id)}).getEntity();
             model.addAttribute("brand",brand);
             return contentPage("forms/brand", model);
         } else {
-            List<Brand> list = ShopDBBuilder.newInstance().select(Brand.class).getList(shopDBService);
+            List<Brand> list = ShopDBBuilder.newInstance(shopDBService,Brand.class).getList();
             model.addAttribute("list", list);
             return contentPage("list/brand", model);
         }
@@ -56,20 +56,20 @@ public class ABrandsView extends AdminControllerBase {
     @RequestMapping(value = {"/del/{id}"}, method = RequestMethod.GET)
     public String ajaxDelete(Model model, @PathVariable int id) {
 //        dataBaseService.delete(Brand.class, "id=?", new ParameterSql[]{new ParameterSql(Integer.class, id)});
-        ShopDBBuilder.newInstance().select(Brand.class).setClause("id=?").setParameterSql(new ParameterSql[]{new ParameterSql(Integer.class, id)}).delete(shopDBService);
-        List<Brand> list = ShopDBBuilder.newInstance().select(Brand.class).getList(shopDBService);
+        ShopDBBuilder.newInstance(shopDBService,Brand.class,"id=?",new ParameterSql[]{new ParameterSql(Integer.class, id)}).delete();
+        List<Brand> list = ShopDBBuilder.newInstance(shopDBService,Brand.class).getList();
         model.addAttribute("list", list);
         return "admin/fragments/list/brand";
     }
     @RequestMapping(value = "/{action}",method = RequestMethod.POST)
     public String updateCategory(@ModelAttribute(value = "formData") Brand brandForm, Model model, @PathVariable String action){
-        brandForm.setDateUpdate(Utils.DateNow(Utils.DATE_FILE));
+        brandForm.setDateUpdate(getDataUpdate());
         shopDBService.save(brandForm);
         return "redirect:/admin/brand";
     }
     @RequestMapping(value = {"/popup"}, method = RequestMethod.GET)
     public String ajaxList(Model model) {
-        List<Brand> list = ShopDBBuilder.newInstance().select(Brand.class).getList(shopDBService);
+        List<Brand> list = ShopDBBuilder.newInstance(shopDBService,Brand.class).getList();
         model.addAttribute("list", list);
         return "admin/fragments/ajax/modal/popupBrand";
     }

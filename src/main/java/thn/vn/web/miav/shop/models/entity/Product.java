@@ -78,13 +78,7 @@ public class Product  implements Serializable {
         this.note = note;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    int id;
-    private String name;
-    private String nameSecond;
-    private int categoryId;
-    private String categoryName;
+
 
     public String getCategoryName() {
         return categoryName;
@@ -110,18 +104,7 @@ public class Product  implements Serializable {
         this.brandName = brandName;
     }
 
-    private String manufacturersName;
-    private String brandName;
-    private int manufacturersId;
 
-    private int brandId;
-    @Lob
-    private String attributes;
-    @Lob
-    private String images;
-    @Lob
-    private String note;
-    private int priceSell;
     public int getPriceSell() {
         return priceSell;
     }
@@ -137,7 +120,7 @@ public class Product  implements Serializable {
         this.label = label;
     }
 
-    private String label;
+
 
     public String getDateUpdate() {
         return dateUpdate;
@@ -147,8 +130,6 @@ public class Product  implements Serializable {
         this.dateUpdate = dateUpdate;
     }
 
-    private String dateUpdate;
-
     public int getIsDelete() {
         return isDelete;
     }
@@ -157,7 +138,7 @@ public class Product  implements Serializable {
         this.isDelete = isDelete;
     }
 
-    private int isDelete = 0;
+
 
     public int getPriceRoot() {
         return priceRoot;
@@ -166,7 +147,7 @@ public class Product  implements Serializable {
     public void setPriceRoot(int priceRoot) {
         this.priceRoot = priceRoot;
     }
-    private int priceRoot;
+
 
     public int getIsWarehouse() {
         return isWarehouse;
@@ -176,7 +157,7 @@ public class Product  implements Serializable {
         this.isWarehouse = isWarehouse;
     }
 
-    private int isWarehouse = 1;
+
     public String getManualCode() {
         return manualCode;
     }
@@ -184,6 +165,29 @@ public class Product  implements Serializable {
     public void setManualCode(String manualCode) {
         this.manualCode = manualCode;
     }
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+    private String name;
+    private String nameSecond;
+    private int categoryId;
+    private String categoryName;
+    private String manualCode;
+    private int isWarehouse = 1;
+    private int priceRoot;
+    private int isDelete = 0;
+    private String dateUpdate;
+    private String label;
+    private String manufacturersName;
+    private String brandName;
+    private int manufacturersId;
 
-    public String manualCode;
+    private int brandId;
+    @Lob
+    private String attributes;
+    @Lob
+    private String images;
+    @Lob
+    private String note;
+    private int priceSell;
 }

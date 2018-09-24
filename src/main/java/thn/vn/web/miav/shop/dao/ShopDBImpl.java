@@ -1,8 +1,11 @@
 package thn.vn.web.miav.shop.dao;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.hibernate.query.Query;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +13,8 @@ import thn.vn.web.miav.shop.utils.ParameterSql;
 import thn.vn.web.miav.shop.utils.Utils;
 
 import javax.persistence.EntityManagerFactory;
+
+import java.util.HashMap;
 import java.util.List;
 
 @Repository
@@ -17,6 +22,7 @@ import java.util.List;
 public class ShopDBImpl implements ShopDBDao{
     @Autowired
     private EntityManagerFactory entityManagerFactory;
+
     private Query setParam(Query query, ParameterSql... args){
         if (args.length > 0) {
             int paramIndex = 0;
@@ -28,6 +34,10 @@ public class ShopDBImpl implements ShopDBDao{
         return query;
     }
 
+    @Override
+    public Session getSession() {
+        return entityManagerFactory.unwrap(SessionFactory.class).openSession();
+    }
 
     @Override
     public  List getList(ShopDBBuilder shopDBBuilder) {
@@ -45,10 +55,17 @@ public class ShopDBImpl implements ShopDBDao{
                     query=setParam(query,shopDBBuilder.getArgs());
                 }
             }
+            if (shopDBBuilder.getListParameter().size()>0){
+                HashMap<String,List> paramList = shopDBBuilder.getListParameter();
+                for (String paramName:paramList.keySet()){
+                    query.setParameterList(paramName,paramList.get(paramName));
+                }
+            }
             if (shopDBBuilder.getMaxResult()>0){
                 query.setMaxResults(shopDBBuilder.getMaxResult());
                 query.setFirstResult(shopDBBuilder.getFirstResult());
             }
+
             List list = query.getResultList();
             return list;
         } catch (Exception e){
@@ -91,7 +108,7 @@ public class ShopDBImpl implements ShopDBDao{
 
 
             StringBuilder strQuery = new StringBuilder();
-            strQuery.append("delete from " + shopDBBuilder.getClazz());
+            strQuery.append("delete from " + shopDBBuilder.getClazz().getSimpleName());
             if (!Utils.isEmpty(shopDBBuilder.getClause())){
                 strQuery.append(" where " + shopDBBuilder.getClause());
             }
@@ -112,4 +129,28 @@ public class ShopDBImpl implements ShopDBDao{
         }
     }
 
+//    @Override
+//    public String getMax(String column,ShopDBBuilder shopDBBuilder) {
+//        Session session = null;
+//        try {
+//            session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+//            CriteriaBuilder builder = session.getCriteriaBuilder();
+//            CriteriaQuery query = builder.createQuery(shopDBBuilder.getClass());
+//            Root contactRoot = query.from(shopDBBuilder.getClass());
+//            Query<Integer> query2 = session.createQuery(query);
+//
+//            query.select(builder.max(contactRoot.get("")));
+////            return builder.uniqueResult().toString();
+//            return "";
+//        } catch (Exception e) {
+//            throw e;
+//        } finally {
+//            session.close();
+//        }
+//    }
+//
+//    @Override
+//    public String getMin(String column,ShopDBBuilder shopDBBuilder) {
+//        return null;
+//    }
 }

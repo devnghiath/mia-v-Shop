@@ -14,8 +14,6 @@ public class Category  implements Serializable {
         this.dateUpdate = dateUpdate;
     }
 
-
-
     public int getIsDelete() {
         return isDelete;
     }
@@ -23,7 +21,6 @@ public class Category  implements Serializable {
     public void setIsDelete(int isDelete) {
         this.isDelete = isDelete;
     }
-
 
     public int getId() {
         return id;
@@ -56,10 +53,11 @@ public class Category  implements Serializable {
         this.manualCode = manualCode;
     }
 
-    public String manualCode;
+
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
+    private String manualCode;
     private String name;
     private String path;
     private int isDelete = 0;

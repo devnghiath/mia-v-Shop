@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import thn.vn.web.miav.shop.common.AdminControllerBase;
+import thn.vn.web.miav.shop.dao.ShopDBBuilder;
 import thn.vn.web.miav.shop.models.entity.Inventory;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 public class AInventoryView extends AdminControllerBase {
     @RequestMapping(value = {"","/"}, method = RequestMethod.GET)
     public String home(Model model){
-        List<Inventory> inventories = dataBaseService.getAll(Inventory.class);
+        List<Inventory> inventories = ShopDBBuilder.newInstance(shopDBService,Inventory.class).getList();
         model.addAttribute("list", inventories);
         return contentPage("list/inventory", model);
     }

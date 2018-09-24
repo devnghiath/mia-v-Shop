@@ -38,7 +38,7 @@ public class AStoreHouseView extends AdminControllerBase {
     }
     @RequestMapping(value = {""}, method = RequestMethod.GET)
     public String home(Model model) {
-        model.addAttribute("list", ShopDBBuilder.newInstance().select(StoreHouse.class).getList(shopDBService));
+        model.addAttribute("list", ShopDBBuilder.newInstance(shopDBService,StoreHouse.class).getList());
         return contentPage("list/storehouse",model);
     }
     @RequestMapping(value = "/{action}", method = RequestMethod.POST)
@@ -58,19 +58,19 @@ public class AStoreHouseView extends AdminControllerBase {
     }
     @RequestMapping(value = {"/popup"}, method = RequestMethod.GET)
     public String ajaxList(Model model) {
-        List<StoreHouse> list = ShopDBBuilder.newInstance().select(StoreHouse.class).getList(shopDBService);
+        List<StoreHouse> list = ShopDBBuilder.newInstance(shopDBService).select(StoreHouse.class).getList();
         model.addAttribute("list", list);
         return "admin/fragments/ajax/modal/popupStorehouse";
     }
 
     @RequestMapping(value = {"/ajax/item/{id}"}, method = RequestMethod.GET)
     public ResponseEntity<?> ajaxDetailItem(@PathVariable int id){
-        ShopDBBuilder shopDBBuilder = new ShopDBBuilder();
+        ShopDBBuilder shopDBBuilder = new ShopDBBuilder(shopDBService);
         shopDBBuilder.select(StoreHouse.class);
         shopDBBuilder.setClause("id=?");
         shopDBBuilder.setParameterSql(new ParameterSql[]{new ParameterSql(Integer.class, id)});
-        StoreHouse storeHouse = (StoreHouse)shopDBBuilder.getEntity(shopDBService);
-        StoreHouseDetail storeHouseDetail = (StoreHouseDetail)ShopDBBuilder.newInstance().select(StoreHouseDetail.class).setClause("storeHouseId=?").setParameterSql(new ParameterSql[]{new ParameterSql(Integer.class, id)}).getEntity(shopDBService);
+        StoreHouse storeHouse = (StoreHouse)shopDBBuilder.getEntity();
+        StoreHouseDetail storeHouseDetail = (StoreHouseDetail)ShopDBBuilder.newInstance(shopDBService).select(StoreHouseDetail.class).setClause("storeHouseId=?").setParameterSql(new ParameterSql[]{new ParameterSql(Integer.class, id)}).getEntity();
         HashMap<String,Object> data = new HashMap<>();
         data.put("storehouse",storeHouse);
         data.put("storeHouseDetail",storeHouseDetail);

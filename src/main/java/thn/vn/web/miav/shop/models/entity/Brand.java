@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "brand")
-public class Brand  implements Serializable {
+public class Brand implements Serializable {
     public String getDateUpdate() {
         return dateUpdate;
     }
@@ -13,8 +13,6 @@ public class Brand  implements Serializable {
     public void setDateUpdate(String dateUpdate) {
         this.dateUpdate = dateUpdate;
     }
-
-    private String dateUpdate;
 
     public int getIsDelete() {
         return isDelete;
@@ -24,7 +22,6 @@ public class Brand  implements Serializable {
         this.isDelete = isDelete;
     }
 
-    private int isDelete = 0;
     public int getId() {
         return id;
     }
@@ -42,8 +39,9 @@ public class Brand  implements Serializable {
     }
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
-
+    private int isDelete = 0;
+    private String dateUpdate;
 }

@@ -6,9 +6,6 @@ import java.io.Serializable;
 @Entity
 @Table(name = "manufacturer")
 public class Manufacturer implements Serializable {
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private int id;
 
     public int getId() {
         return id;
@@ -26,9 +23,6 @@ public class Manufacturer implements Serializable {
         this.name = name;
     }
 
-    private String name;
-
-    private String tel;
 
     public String getTel() {
         return tel;
@@ -46,7 +40,8 @@ public class Manufacturer implements Serializable {
         this.address = address;
     }
 
-    private String address;
+
+
     public String getDateUpdate() {
         return dateUpdate;
     }
@@ -55,7 +50,7 @@ public class Manufacturer implements Serializable {
         this.dateUpdate = dateUpdate;
     }
 
-    private String dateUpdate;
+
 
     public int getIsDelete() {
         return isDelete;
@@ -65,8 +60,6 @@ public class Manufacturer implements Serializable {
         this.isDelete = isDelete;
     }
 
-    private int isDelete = 0;
-
     public String getManualCode() {
         return manualCode;
     }
@@ -75,5 +68,13 @@ public class Manufacturer implements Serializable {
         this.manualCode = manualCode;
     }
 
-    public String manualCode;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+    private String dateUpdate;
+    private String name;
+    private String tel;
+    private int isDelete = 0;
+    private String address;
+    private String manualCode;
 }

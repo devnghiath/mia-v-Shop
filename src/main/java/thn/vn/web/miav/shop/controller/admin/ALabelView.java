@@ -13,6 +13,7 @@ import thn.vn.web.miav.shop.utils.ParameterSql;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Controller
 @RequestMapping(value = "/admin/label")
@@ -24,9 +25,18 @@ public class ALabelView extends AdminControllerBase {
     @RequestMapping(value = {"","/"}, method = RequestMethod.GET)
     public String categoryMain(Model model) {
         List<Product> list = new ArrayList<>();
-        Product product = (Product)ShopDBBuilder.newInstance().select(Product.class).setClause("id=?").setParameterSql(new ParameterSql[]{new ParameterSql(Integer.class,2)}).getEntity(shopDBService);
-        for (int i = 0; i <44;i++ ){
+
+        list = ShopDBBuilder.newInstance(shopDBService,Product.class).getList();
+        int size = list.size();
+        for (int i = 0; i <40;i++ ){
+            if (list.size()==40){
+                break;
+            }
+            Random random = new Random();
+
+            Product product = list.get(random.nextInt(size));
             list.add(product);
+
         }
         model.addAttribute("list", list);
         return "admin/fragments/list/printLabel";

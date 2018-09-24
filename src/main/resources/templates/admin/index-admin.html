@@ -7,6 +7,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--/*@thymesVar id="cssList" type="java.util.List<java.lang.String>"*/-->
+    <!--/*@thymesVar id="cssItem" type="java.lang.String"*/-->
     <link th:each="cssItem:${cssList}" rel="stylesheet" type="text/css" th:href="${cssItem}"/>
 
 </head>
@@ -41,24 +43,25 @@
                         <h3>General</h3>
                         <ul class="nav side-menu" style="">
                             <!--<li class="active"><a><i class="fa fa-home"></i> Home <span-->
-                                    <!--class="fa fa-chevron-down"></span></a>-->
-                                <!--<ul class="nav child_menu" style="display: block;">-->
-                                    <!--<li class="current-page"><a href="index.html">Dashboard</a></li>-->
-                                    <!--<li><a href="index2.html">Dashboard2</a></li>-->
-                                    <!--<li><a href="index3.html">Dashboard3</a></li>-->
-                                <!--</ul>-->
+                            <!--class="fa fa-chevron-down"></span></a>-->
+                            <!--<ul class="nav child_menu" style="display: block;">-->
+                            <!--<li class="current-page"><a href="index.html">Dashboard</a></li>-->
+                            <!--<li><a href="index2.html">Dashboard2</a></li>-->
+                            <!--<li><a href="index3.html">Dashboard3</a></li>-->
+                            <!--</ul>-->
                             <!--</li>-->
-                            <li><a><i class="fa fa-plus"></i>Đăng ký <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-cog"></i> Cài đặt <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-
-                                    <li><a href="/admin/category/new">Danh mục</a></li>
-                                    <li><a href="/admin/brand/new">Nhãn hiệu</a></li>
-                                    <li><a href="/admin/manufacturer/new">Nhà sản xuất</a></li>
-                                    <li><a href="/admin/product/new">Sản phẩm </a></li>
-                                    <li><a href="/admin/price/new">Giá sản phẩm </a></li>
-                                    <li><a href="/admin/label">in tem barcode </a></li>
+                                    <li><a href="/admin/category/new">Thêm Danh mục</a></li>
+                                    <li><a href="/admin/brand/new">Thêm Nhãn hiệu</a></li>
+                                    <li><a href="/admin/manufacturer/new">Thêm Nhà sản xuất</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-registered"></i>Đăng ký <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
                                     <li><a href="/admin/storehouse/new">Đăng ký Nhà Kho</a></li>
                                     <li><a href="/admin/storehouse_detail/new">Đăng ký Thông tin Nhà Kho</a></li>
+
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-list"></i>Danh sách<span
@@ -67,23 +70,46 @@
                                     <li><a href="/admin/category">Danh mục</a></li>
                                     <li><a href="/admin/brand">Nhãn hiệu</a></li>
                                     <li><a href="/admin/manufacturer">Nhà sản xuất</a></li>
-                                    <li><a href="/admin/product">Sản phẩm </a></li>
-                                    <li><a href="/admin/price">Giá sản phẩm </a></li>
-                                    <li><a href="/admin/import">Nhập kho</a></li>
-                                    <li><a href="/admin/sell">Bán Hàng</a></li>
-                                    <li><a href="/admin/inventory">xem tồn kho</a></li>
+                                    <li><a href="/admin/product"> Sản phẩm </a></li>
+                                    <li><a href="/admin/invoice_import">Nhập kho</a></li>
+                                    <li><a href="/admin/invoice_export">Bán Hàng</a></li>
                                     <li><a href="/admin/storehouse">Nhà Kho</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-table"></i> Quản lý bán hàng <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="/admin/import/new">Nhập kho</a></li>
-                                    <li><a href="/admin/sell/new">Bán Hàng</a></li>
+                                    <li><a href="/admin/invoice_import/new">Nhập Hàng</a></li>
+                                    <li><a href="/admin/invoice_export/new">Bán Hàng</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-table"></i> Tables <span class="fa fa-chevron-down"></span></a>
+
+                            <li><a><i class="fa fa-product-hunt"></i> Quản lý sản phẩm <span
+                                    class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="tables.html">Tables</a></li>
+                                    <li><a href="/admin/product/new"> Thêm Sản phẩm </a></li>
+                                    <li><a href="/admin/price/new">Điều chỉnh giá sản phẩm </a></li>
+                                    <li><a href="/admin/attributes/new">Đăng ký thuộc tính sản phẩm</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-table"></i> Quản lý kho <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="/admin/storehouse/new">Đăng ký Nhà Kho</a></li>
+                                    <li><a href="/admin/storehouse_detail/new">Đăng ký Thông tin Nhà Kho</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-table"></i> Báo cáo <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="/admin/inventory">Xem tồn kho</a></li>
+                                    <li><a href="tables_dynamic.html">Table Dynamic</a></li>
+
+                                </ul>
+                            </li>
+
+                            <li><a><i class="fa fa-table"></i> Quản lý nhãn <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="/admin/label">In nhãn sản phẩm</a></li>
+                                    <li><a href="/admin/label">In nhãn giá sản phẩm</a></li>
+
                                     <li><a href="tables_dynamic.html">Table Dynamic</a></li>
 
                                 </ul>
@@ -217,7 +243,7 @@
         <!-- /top navigation -->
         <!-- page content -->
 
-
+        <!--/*@thymesVar id="template" type="java.lang.String"*/-->
         <div class="right_col" role="main" style="min-height: 1780px;" id="content">
             <div th:replace="${template}" }></div>
         </div>
@@ -232,6 +258,8 @@
         <!-- /footer content -->
     </div>
 </div>
-<script type ="text/javascript" th:each="jsItem:${jsList}" th:src="${jsItem}"></script>
+<!--/*@thymesVar id="jsList" type="java.util.List<java.lang.String>"*/-->
+<!--/*@thymesVar id="jsItem" type="java.lang.String"*/-->
+<script type="text/javascript" th:each="jsItem:${jsList}" th:src="${jsItem}"></script>
 </body>
 </html>

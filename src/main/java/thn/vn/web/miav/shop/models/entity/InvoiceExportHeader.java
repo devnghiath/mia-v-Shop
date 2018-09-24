@@ -3,14 +3,14 @@ package thn.vn.web.miav.shop.models.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "export_header")
-public class ExportHeader {
+@Table(name = "invoice_export_header")
+public class InvoiceExportHeader {
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -53,11 +53,29 @@ public class ExportHeader {
     public void setNote(String note) {
         this.note = note;
     }
+    public void setIsComplete(int isComplete) {
+        this.isComplete = isComplete;
+    }
+
+    public int getIsComplete() {
+        return isComplete;
+    }
+
+    public void setIsPay(int isPay) {
+        this.isPay = isPay;
+    }
+
+    public int getIsPay() {
+        return isPay;
+    }
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     private String dateExport;
     private String dateUpdate;
     private float total;
     private int userId;
     private String note;
+    private int isComplete = 0;
+    private int isPay = 0;
 }

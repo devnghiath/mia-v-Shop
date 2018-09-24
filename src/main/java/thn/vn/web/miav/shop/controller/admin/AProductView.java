@@ -9,10 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import thn.vn.web.miav.shop.common.AdminControllerBase;
-import thn.vn.web.miav.shop.models.entity.Brand;
-import thn.vn.web.miav.shop.models.entity.Category;
-import thn.vn.web.miav.shop.models.entity.Manufacturer;
-import thn.vn.web.miav.shop.models.entity.Product;
+import thn.vn.web.miav.shop.dao.ShopDBBuilder;
+import thn.vn.web.miav.shop.models.entity.*;
 import thn.vn.web.miav.shop.models.response.ImageUploadResponse;
 import thn.vn.web.miav.shop.services.StorageService;
 import thn.vn.web.miav.shop.utils.ParameterSql;
@@ -37,7 +35,7 @@ public class AProductView extends AdminControllerBase {
 
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
     String list(Model model) {
-        List<Product> list = dataBaseService.getAll(Product.class);
+        List<Product> list = ShopDBBuilder.newInstance(shopDBService,Product.class).getList();
         model.addAttribute("list", list);
         return contentPage("list/product", model);
     }
@@ -50,7 +48,7 @@ public class AProductView extends AdminControllerBase {
             jsCustom("/mia-v/js/custom.js");
             return contentPage("forms/product", model);
         } else if (action.equalsIgnoreCase("list")) {
-            List<Product> list = dataBaseService.getAll(Product.class);
+            List<Product> list = ShopDBBuilder.newInstance(shopDBService,Product.class).getList();
             model.addAttribute("list", list);
             return contentPage("list/product", model);
         } else {
@@ -59,8 +57,19 @@ public class AProductView extends AdminControllerBase {
     }
 
     @RequestMapping(value = {"/popup"}, method = RequestMethod.GET)
-    public String ajaxList(Model model) {
-        List<Product> list = dataBaseService.getAll(Product.class);
+    public String ajaxList(Model model,@RequestParam(value = "listId", required = false) List<Integer> listId,@RequestParam(value = "isWarehouse", required = false)String isWarehouse ) {
+
+        List<Product> list;
+        List<Integer> listFilter = new ArrayList<>();
+        if (Utils.isEmpty(isWarehouse)){
+            isWarehouse = "1";
+        }
+        if (listId.size()>0){
+            list = ShopDBBuilder.newInstance(shopDBService,Product.class,"isWarehouse=? and id not in (:id)",new ParameterSql[]{new ParameterSql(Integer.class,Integer.parseInt(isWarehouse))}).setListParameter("id",listId).getList();
+        } else {
+            list = ShopDBBuilder.newInstance(shopDBService,Product.class,"isWarehouse=?",new ParameterSql[]{new ParameterSql(Integer.class,Integer.parseInt(isWarehouse))}).getList();
+        }
+
         model.addAttribute("list", list);
         return "admin/fragments/ajax/modal/popupProduct";
     }
@@ -69,11 +78,11 @@ public class AProductView extends AdminControllerBase {
     public String viewUpdate(Model model, @PathVariable String action, @PathVariable int id) {
 
         if (action.equalsIgnoreCase("update")) {
-            Product product = dataBaseService.find(Product.class, "id=?", new ParameterSql[]{new ParameterSql(Integer.class, id)});
+            Product product =(Product)ShopDBBuilder.newInstance(shopDBService,Product.class, "id=?", new ParameterSql[]{new ParameterSql(Integer.class, id)}).getEntity();
             model.addAttribute("product", product);
             return contentPage("forms/product", model);
         } else {
-            List<Category> list = dataBaseService.getAll(Category.class);
+            List<Category> list = ShopDBBuilder.newInstance(shopDBService,Category.class).getList();
             model.addAttribute("list", list);
             return contentPage("list/product", model);
         }
@@ -82,12 +91,7 @@ public class AProductView extends AdminControllerBase {
     @RequestMapping(value = "/{action}", method = RequestMethod.POST)
     public String save(HttpServletRequest request,  @ModelAttribute(value = "formData") Product formData, Model model, @PathVariable String action) {
         formData.setLabel(generalBarcode());
-//        if (!Utils.isEmpty(file.getOriginalFilename())) {
-//            String nameFile = storageService.store(file, formData.getLabel());
-//            formData.setImages("/upload/" + nameFile);
-//        } else {
-//            formData.setImages("");
-//        }
+
         List<ImageUploadResponse> imageUploadResponseList = new ArrayList<>();
 
         if (request.getParameterMap().get("fileName").length>0){
@@ -102,9 +106,9 @@ public class AProductView extends AdminControllerBase {
             }
             storageService.deleteAllFile(pathTemp);
         }
-        Category category = dataBaseService.find(Category.class, "id=?", new ParameterSql[]{new ParameterSql(Integer.class, formData.getCategoryId())});
-        Brand brand = dataBaseService.find(Brand.class, "id=?", new ParameterSql[]{new ParameterSql(Integer.class, formData.getBrandId())});
-        Manufacturer manufacturer = dataBaseService.find(Manufacturer.class, "id=?", new ParameterSql[]{new ParameterSql(Integer.class, formData.getManufacturersId())});
+        Category category = (Category) ShopDBBuilder.newInstance(shopDBService,Category.class, "id=?", new ParameterSql[]{new ParameterSql(Integer.class, formData.getCategoryId())}).getEntity();
+        Brand brand = (Brand) ShopDBBuilder.newInstance(shopDBService,Brand.class, "id=?", new ParameterSql[]{new ParameterSql(Integer.class, formData.getBrandId())}).getEntity();
+        Manufacturer manufacturer = (Manufacturer) ShopDBBuilder.newInstance(shopDBService,Manufacturer.class, "id=?", new ParameterSql[]{new ParameterSql(Integer.class, formData.getManufacturersId())}).getEntity();
         formData.setCategoryName(category.getName());
         formData.setBrandName(brand.getName());
         formData.setManufacturersName(manufacturer.getName());
@@ -113,14 +117,45 @@ public class AProductView extends AdminControllerBase {
         } else {
             formData.setImages("");
         }
-        formData.setDateUpdate(Utils.DateNow(Utils.DATE_FILE));
-        dataBaseService.save(formData);
+
+        formData.setDateUpdate(getDataUpdate());
+        shopDBService.save(formData);
+        ManualCodeProduct manualCodeProduct = new ManualCodeProduct();
+        manualCodeProduct.setPrefix(category.getManualCode());
+        ShopDBBuilder shopDBBuilder = new ShopDBBuilder(shopDBService,ManualCodeProduct.class);
+        shopDBBuilder.setClause("prefix=? ");
+
+        shopDBBuilder.setParameterSql(new ParameterSql[]{new ParameterSql(String.class,manualCodeProduct.getPrefix())});
+        StringBuilder manualCode = new StringBuilder();
+        if (shopDBBuilder.check()){
+            manualCodeProduct = (ManualCodeProduct)shopDBBuilder.getEntity();
+            manualCodeProduct.setNo(manualCodeProduct.getNo()+1);
+            manualCode.append(Integer.parseInt(manualCodeProduct.getPrefix().trim())+manualCodeProduct.getNo());
+            manualCode.append(" ");
+            manualCode.append(manufacturer.getManualCode().trim());
+            manualCode.append(" ");
+            manualCode.append(formData.getPriceSell());
+        } else {
+            manualCodeProduct.setNo(1);
+            manualCode.append(Integer.parseInt(manualCodeProduct.getPrefix().trim())+manualCodeProduct.getNo());
+            manualCode.append(" ");
+            manualCode.append(manufacturer.getManualCode().trim());
+            manualCode.append(" ");
+            manualCode.append(formData.getPriceSell());
+        }
+        shopDBService.save(manualCodeProduct);
+        formData.setManualCode(manualCode.toString());
+        shopDBService.save(formData);
+        ProductLabel productLabel = new ProductLabel();
+        productLabel.setLabel(formData.getLabel());
+        productLabel.setManualLabel(formData.getManualCode());
+        productLabel.setProductId(formData.getId());
         return "redirect:/admin/product";
     }
 
     private String generalBarcode() {
         String barcode = Utils.generateBarcode(13);
-        if (dataBaseService.checked(Product.class, "label=?", new ParameterSql[]{new ParameterSql(String.class, barcode)})) {
+        if (ShopDBBuilder.newInstance(shopDBService,Product.class, "label=?", new ParameterSql[]{new ParameterSql(String.class, barcode)}).check()) {
             generalBarcode();
         }
         return barcode;
@@ -128,14 +163,15 @@ public class AProductView extends AdminControllerBase {
 
     @RequestMapping(value = {"/del/{id}"}, method = RequestMethod.GET)
     public String ajaxDelete(Model model, @PathVariable int id) {
-        dataBaseService.delete(Product.class, "id=?", new ParameterSql[]{new ParameterSql(Integer.class, id)});
-        List<Product> list = dataBaseService.getAll(Product.class);
+        ShopDBBuilder.newInstance(shopDBService,Product.class, "id=?", new ParameterSql[]{new ParameterSql(Integer.class, id)}).delete();
+
+        List<Product> list = ShopDBBuilder.newInstance(shopDBService,Product.class).getList();
         model.addAttribute("list", list);
         return "admin/fragments/list/product";
     }
     @RequestMapping(value = {"/image/{id}"}, method = RequestMethod.GET)
     public String ajaxImageProduct(Model model, @PathVariable int id){
-        Product product = dataBaseService.find(Product.class,"id=?",new ParameterSql[]{new ParameterSql(Integer.class, id)});
+        Product product =  (Product)ShopDBBuilder.newInstance(shopDBService,Product.class,"id=?",new ParameterSql[]{new ParameterSql(Integer.class, id)}).getEntity();
         List<ImageUploadResponse> list = (List<ImageUploadResponse>) new Gson().fromJson(product.getImages(),
                 new TypeToken<List<ImageUploadResponse>>() {
                 }.getType());
@@ -144,7 +180,10 @@ public class AProductView extends AdminControllerBase {
     }
     @RequestMapping(value = {"/ajax/item/{id}"}, method = RequestMethod.GET)
     public ResponseEntity<?> ajaxDetailItem(@PathVariable int id){
-        Product product = dataBaseService.find(Product.class,"id=?",new ParameterSql[]{new ParameterSql(Integer.class, id)});
+        Product product = (Product)ShopDBBuilder.newInstance(shopDBService,Product.class,"id=?",new ParameterSql[]{new ParameterSql(Integer.class, id)}).getEntity();
         return new ResponseEntity<>(product, HttpStatus.OK);
+    }
+    int getManualIdProduct(){
+        return 0;
     }
 }

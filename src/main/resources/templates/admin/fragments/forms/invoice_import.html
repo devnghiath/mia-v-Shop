@@ -1,4 +1,4 @@
-<div class="" xmlns:th="http://www.thymeleaf.org">
+<div class=""xmlns:th="http://www.thymeleaf.org">
 
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -9,19 +9,18 @@
                 </div>
                 <div class="x_content">
                     <!--/*@thymesVar id="formData" type="thn.vn.web.miav.shop.models.entity.Product"*/-->
-                    <form class="form-horizontal form-label-left" action="#"
-                          th:action="@{/admin/sell/new}" method="post">
+                    <form  class="form-horizontal form-label-left" action="#"
+                           th:action="@{/admin/invoice_import/new}" method="post">
                         <div id="productIdList">
 
                         </div>
                         <div class="table-responsive">
-                            <table id="product_table"
-                                   class="table table-striped jambo_table bulk_action table-bordered">
+                            <table id ="product_table" class="table table-striped jambo_table bulk_action table-bordered">
                                 <thead>
                                 <tr>
                                     <th class="col-sm-1">ID</th>
                                     <th class="col-sm-4">Name</th>
-                                    <th class="col-sm-2">Giá bán sản phẩm</th>
+                                    <th class="col-sm-2">Giá Nhập</th>
                                     <th class="col-sm-2">Số lượng</th>
                                     <th class="col-sm-1">Delete</th>
 
@@ -33,12 +32,11 @@
                             </table>
                         </div>
                         <div class="item form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12"> <span
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" > <span
                                     class="required"></span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input class="btn btn-success col-md-7 col-xs-12" type="button" value="Chọn sản phẩm"
-                                       th:onclick="|loadPopup('/admin/product/popup')|">
+                                <input class="btn btn-success col-md-7 col-xs-12" type="button" value="Chọn sản phẩm"  th:onclick="|loadPopup('/admin/product/popup')|">
                             </div>
 
                         </div>
@@ -58,11 +56,28 @@
 </div>
 <script>
     function loadPopup(url) {
+        var listId = ""
+        var i = 0
+        if($('#product_table tr').size()>1){
+            $('#product_table tr').each(function() {
+                if (i>=1){
+                    if (i == $('#product_table tr').size()-1){
+                        listId=listId+this.id
+                    } else {
+                        listId=listId+this.id+","
+                    }
+
+                }
+                i++;
+
+
+            })
+        }
         var $modal = $('#popup');
         $modal.modal('show');
 
         $.ajax({
-            url: url,
+            url: url+'?listId='+listId,
             success: function (result) {
                 $("#popup").html(result);
             }
@@ -70,8 +85,7 @@
         })
 
     }
-
-    function selectItem(name, value, price, type) {
+    function selectItem(name, value,price, type) {
         $.ajax({
                 url: '/admin/product/ajax/item/'+value,
                 success: function (result) {
@@ -81,11 +95,11 @@
                     // console.log(dataJson.name);
                     var tbody = $('#product_table').find('tbody');
 //Then if no tbody just select your table
-                    var rowId = $.now();
+                    var rowId = result.id;
                     var table = tbody;
                     var col_id = '<td>' + result.id + '</td>';
                     var col_name = '<td>' + result.name+'('+result.nameSecond + ')</td>';
-                    var col_price = '<td><input class="form-control col-md-7 col-xs-12" name="money_' + result.id + '" required="required" type="text" value="' + result.priceSell + '" /></td>';
+                    var col_price = '<td><input class="form-control col-md-7 col-xs-12" name="money_' + result.id + '" required="required" type="text" value="' + result.priceRoot + '" /></td>';
                     var col_amount = '<td><input class="form-control col-md-7 col-xs-12" name="amount_' + result.id + '" required="required" type="text" /></td>';
                     var col_delete = '<td><button class="btn btn-danger btn-xs" onclick="deleteRow(\'' + rowId + '\')" ><span class="glyphicon glyphicon-trash"></span></button></td>';
                     var input_hidden = '<input type="hidden" name="productId" value="'+result.id+'">'
@@ -94,11 +108,8 @@
                 }
             }
         );
-
-
     }
-
     function deleteRow(id) {
-        $('#' + id).remove();
+        $('#'+id).remove();
     }
 </script>

@@ -1,4 +1,4 @@
-<div class=""xmlns:th="http://www.thymeleaf.org">
+<div class="" xmlns:th="http://www.thymeleaf.org">
 
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -9,14 +9,14 @@
                 </div>
                 <div class="x_content">
                     <!--/*@thymesVar id="formData" type="thn.vn.web.miav.shop.models.entity.Product"*/-->
-                    <form  class="form-horizontal form-label-left" action="#"
+                    <form class="form-horizontal form-label-left" action="#"
                           th:action="@{/admin/product/new}"
                           th:object="${formData}" method="post">
                         <!--/*@thymesVar id="product" type="thn.vn.web.miav.shop.models.entity.Product"*/-->
                         <div th:if="${product}!=null">
                             <input type="hidden" name="id" th:value="${product.id}">
                         </div>
-                        <div id ="imageList">
+                        <div id="imageList">
 
                         </div>
                         <input type="hidden" id="categoryId" name="categoryId"
@@ -25,80 +25,53 @@
                         <input type="hidden" id="manufacturersId" name="manufacturersId"
                                th:value="${product!=null?product.manufacturersId:''}">
                         <div class="item form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Tên  sản phẩm <span
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Tên sản phẩm <span
                                     class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div th:if="${product}!=null">
-                                    <input id="name" class="form-control col-md-7 col-xs-12"
-                                           data-validate-length-range="6"
-                                           data-validate-words="2" name="name" placeholder="Tên sản phẩm"
-                                           required="required" type="text" th:value="${product.name}">
-                                </div>
-                                <div th:if="${product}==null">
-                                    <input class="form-control col-md-7 col-xs-12"
-                                           data-validate-length-range="6"
-                                           data-validate-words="2" name="name" placeholder="Tên sản phẩm"
-                                           required="required" type="text" th:field="*{name}">
-                                </div>
+                                <input id="name" class="form-control col-md-7 col-xs-12"
+                                       data-validate-length-range="6"
+                                       data-validate-words="2" name="name" placeholder="Tên sản phẩm"
+                                       required="required" type="text" th:value="${product!=null?product.name:''}">
                             </div>
                         </div>
                         <div class="item form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Tên sản phẩm mở rộng
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nameSecond">Tên sản phẩm mở
+                                rộng
                                 <span
                                         class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div th:if="${product}!=null">
-                                    <input id="nameSecond" class="form-control col-md-7 col-xs-12"
-                                           data-validate-length-range="6"
-                                           data-validate-words="2" name="nameSecond" placeholder="Tên mở rộng"
-                                           required="required" type="text" th:value="${product.nameSecond}">
-                                </div>
-                                <div th:if="${product}==null">
-                                    <input class="form-control col-md-7 col-xs-12"
-                                           data-validate-length-range="6"
-                                           data-validate-words="2" name="nameSecond" placeholder="Tên mở rộng"
-                                           required="required" type="text" th:field="*{nameSecond}">
-                                </div>
+                                <input id="nameSecond" class="form-control col-md-7 col-xs-12"
+                                       data-validate-length-range="6"
+                                       data-validate-words="2" name="nameSecond" placeholder="Tên mở rộng"
+                                       required="required" type="text"
+                                       th:value="${product!=null?product.nameSecond:''}">
+                            </div>
+                        </div>
+
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="priceRoot">Giá nhập sản
+                                phẩm<span
+                                        class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="priceRoot" class="form-control col-md-7 col-xs-12"
+                                       data-validate-length-range="6"
+                                       data-validate-words="2" name="priceRoot" placeholder="Giá bán sản phẩm"
+                                       required="required" type="text" th:value="${product!=null?product.priceRoot:''}">
                             </div>
                         </div>
                         <div class="item form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Giá nhập sản phẩm<span
-                                    class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="priceSell">Giá bán sản
+                                phẩm<span
+                                        class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div th:if="${product}!=null">
-                                    <input id="priceSell" class="form-control col-md-7 col-xs-12"
-                                           data-validate-length-range="6"
-                                           data-validate-words="2" name="priceSell" placeholder="Giá bán sản phẩm"
-                                           required="required" type="text" th:value="${product.priceRoot}">
-                                </div>
-                                <div th:if="${product}==null">
-                                    <input class="form-control col-md-7 col-xs-12"
-                                           data-validate-length-range="6"
-                                           data-validate-words="2" name="priceSell" placeholder="Giá bán sản phẩm"
-                                           required="required" type="text" th:field="*{priceRoot}">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Giá bán sản phẩm<span
-                                    class="required">*</span>
-                            </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div th:if="${product}!=null">
-                                    <input id="priceSell" class="form-control col-md-7 col-xs-12"
-                                           data-validate-length-range="6"
-                                           data-validate-words="2" name="priceSell" placeholder="Giá bán sản phẩm"
-                                           required="required" type="text" th:value="${product.priceSell}">
-                                </div>
-                                <div th:if="${product}==null">
-                                    <input class="form-control col-md-7 col-xs-12"
-                                           data-validate-length-range="6"
-                                           data-validate-words="2" name="priceSell" placeholder="Giá bán sản phẩm"
-                                           required="required" type="text" th:field="*{priceSell}">
-                                </div>
+                                <input id="priceSell" class="form-control col-md-7 col-xs-12"
+                                       data-validate-length-range="6"
+                                       data-validate-words="2" name="priceSell" placeholder="Giá bán sản phẩm"
+                                       required="required" type="text" th:value="${product!=null?product.priceSell:''}">
                             </div>
                         </div>
                         <div class="item form-group">
@@ -109,7 +82,8 @@
                                 <input id="categoryName" class="form-control col-md-7 col-xs-12"
                                        data-validate-length-range="6"
                                        data-validate-words="2" name="categoryName"
-                                       required="required" type="text" th:value="${product!=null?product.categoryName:''}" readonly>
+                                       required="required" type="text"
+                                       th:value="${product!=null?product.categoryName:''}" readonly>
                             </div>
                         </div>
                         <div class="item form-group">
@@ -119,7 +93,8 @@
                                 <input id="brandName" class="form-control col-md-7 col-xs-12"
                                        data-validate-length-range="6"
                                        data-validate-words="2" name="brandName" readonly
-                                       required="required" type="text" th:value="${product != null ? product.brandName:''}">
+                                       required="required" type="text"
+                                       th:value="${product != null ? product.brandName:''}">
                             </div>
                         </div>
                         <div class="item form-group">
@@ -129,8 +104,23 @@
                                 <input id="manufacturersName" class="form-control col-md-7 col-xs-12"
                                        data-validate-length-range="6"
                                        data-validate-words="2" name="manufacturersName" readonly
-                                       required="required" type="text" th:value="${product!=null?product.manufacturersName:''}">
+                                       required="required" type="text"
+                                       th:value="${product!=null?product.manufacturersName:''}">
                             </div>
+                        </div>
+                        <div th:if="${product}!=null">
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="manualCode">Mã thủ công <span
+                                    class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="manualCode" class="form-control col-md-7 col-xs-12"
+                                       data-validate-length-range="6"
+                                       data-validate-words="2" name="manualCode" placeholder="Mã thủ công"
+                                       required="required" type="text"
+                                       th:value="${product!=null?product.manualCode:''}" readonly>
+                            </div>
+                        </div>
                         </div>
                         <div class="item form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Hình ảnh sản phẩm<span
@@ -152,35 +142,35 @@
                             </div>
                         </div>
                     </form>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 <div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
 </div>
 
 <!--<script>-->
-    <!--Dropzone.autoDiscover = false;-->
+<!--Dropzone.autoDiscover = false;-->
 
-    <!--$(".dropzone").dropzone({-->
-        <!--url: "/admin/upload",-->
-        <!--success: function(file, responseText){-->
+<!--$(".dropzone").dropzone({-->
+<!--url: "/admin/upload",-->
+<!--success: function(file, responseText){-->
 
-            <!--var myJson =JSON.stringify(responseText); //jQuery.parseJSON(responseText)-->
-            <!--console.log(myJson);-->
-            <!--var dataJson = JSON.parse(myJson);-->
-            <!--// alert( dataJson.fileName);-->
-            <!--// $('<input>').attr({-->
-            <!--//     type: 'hidden',-->
-            <!--//     name: 'fileName',-->
-            <!--//     value: dataJson.fileName-->
-            <!--// }).appendTo("#imageList");-->
-            <!--$("#imageList").append(responseText)-->
-            <!--// $('.dz-hidden-input').remove();-->
-            <!--// $("#imageList").append('<input type="hidden" name="myfieldname" value= dataJson.fileName" />');-->
-        <!--}-->
-    <!--});-->
+<!--var myJson =JSON.stringify(responseText); //jQuery.parseJSON(responseText)-->
+<!--console.log(myJson);-->
+<!--var dataJson = JSON.parse(myJson);-->
+<!--// alert( dataJson.fileName);-->
+<!--// $('<input>').attr({-->
+<!--//     type: 'hidden',-->
+<!--//     name: 'fileName',-->
+<!--//     value: dataJson.fileName-->
+<!--// }).appendTo("#imageList");-->
+<!--$("#imageList").append(responseText)-->
+<!--// $('.dz-hidden-input').remove();-->
+<!--// $("#imageList").append('<input type="hidden" name="myfieldname" value= dataJson.fileName" />');-->
+<!--}-->
+<!--});-->
 
 <!--</script>-->

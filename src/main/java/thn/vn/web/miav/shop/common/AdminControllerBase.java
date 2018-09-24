@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdminControllerBase extends ControllerBase{
-    @Autowired
-    protected DataBaseService dataBaseService;
+//    @Autowired
+//    protected DataBaseService dataBaseService;
     @Autowired
     protected ShopDBService shopDBService;
     @Autowired
@@ -56,12 +56,12 @@ public class AdminControllerBase extends ControllerBase{
                 break;
             }
         }
-        ShopDBBuilder shopDBBuilder = new ShopDBBuilder();
+        ShopDBBuilder shopDBBuilder = new ShopDBBuilder(shopDBService);
         shopDBBuilder.select(TokenApp.class).setClause("tokenId=?").setParameterSql(new ParameterSql[]{new ParameterSql(String.class,bearerToken)});
 
-        TokenApp tokenApp = dataBaseService.find(TokenApp.class,"tokenId=?",new ParameterSql[]{new ParameterSql(String.class,bearerToken)});
+        TokenApp tokenApp = (TokenApp)ShopDBBuilder.newInstance(shopDBService,TokenApp.class,"tokenId=?",new ParameterSql[]{new ParameterSql(String.class,bearerToken)}).getEntity();
         int userId = tokenProvider.getUserIdFromJWT(tokenApp.getTokenValue());
-        UserApp userApp = dataBaseService.find(UserApp.class,"id=?",new ParameterSql[]{new ParameterSql(Integer.class,userId)});
+        UserApp userApp = (UserApp)ShopDBBuilder.newInstance(shopDBService,UserApp.class,"id=?",new ParameterSql[]{new ParameterSql(Integer.class,userId)}).getEntity();
         return userApp;
     }
 }

@@ -17,7 +17,8 @@
                                 <tr>
                                     <th class="col-sm-1">ID</th>
                                     <th class="col-sm-4">Name</th>
-                                    <th class="col-sm-2">Giá sản phẩm</th>
+                                    <th class="col-sm-2">Giá nhập</th>
+                                    <th class="col-sm-2">Giá bán</th>
                                     <th class="col-sm-1">Delete</th>
 
                                 </tr>
@@ -53,11 +54,30 @@
 </div>
 <script>
     function loadPopup(url) {
+        var listId = ""
+        var i = 0
+        if($('#product_table tr').size()>1){
+            $('#product_table tr').each(function() {
+                if (i>=1){
+                    if (i == $('#product_table tr').size()-1){
+                        listId=listId+this.id
+                    } else {
+                        listId=listId+this.id+","
+                    }
+
+                }
+                i++;
+
+
+            })
+        }
+
+        console.log('productId:'+listId)
         var $modal = $('#popup');
         $modal.modal('show');
 
         $.ajax({
-            url: url,
+            url: url+'?listId='+listId,
             success: function (result) {
                 $("#popup").html(result);
             }
@@ -66,18 +86,28 @@
 
     }
     function selectItem(name, value, type) {
-        console.log(name);
-        // $('#row_product').append('<tr><td>value</td><td>name</td><td>name</td><td>name</td></tr>');
-        var tbody = $('#product_table').find('tbody');
-        console.log(tbody);
+        $.ajax({
+                url: '/admin/product/ajax/item/'+value,
+                success: function (result) {
+                    console.log(result);
+                    // $('#row_product').append('<tr><td>value</td><td>name</td><td>name</td><td>name</td></tr>');
+                    var tbody = $('#product_table').find('tbody');
+                    console.log(tbody);
 //Then if no tbody just select your table
-        var table = tbody;
-        var col_id = '<td>'+value+'</td>';
-        var col_name = '<td>'+name+'</td>';
-        var col_price = '<td><input class="form-control col-md-7 col-xs-12" name="'+value+'" required="required" type="text" /></td>';
-        var col_delete = '<td><button class="btn btn-danger btn-xs" onclick="deleteRow(\''+value+'\')" ><span class="glyphicon glyphicon-trash"></span></button></td>';
+                    var table = tbody;
+                    var col_id = '<td>'+value+'</td>';
+                    var col_name = '<td>'+name+'</td>';
+                    var col_priceRoot = '<td><input class="form-control col-md-7 col-xs-12" name="priceRoot_'+result.id+'" required="required" type="text" value="'+result.priceRoot+'" /></td>';
+                    var col_priceSell = '<td><input class="form-control col-md-7 col-xs-12" name="priceSell_'+result.id+'" required="required" type="text" value="'+result.priceSell+'" /></td>';
+                    var col_delete = '<td><button class="btn btn-danger btn-xs" onclick="deleteRow(\''+result.id+'\')" ><span class="glyphicon glyphicon-trash"></span></button></td>';
 //Add row
-        tbody.append('<tr id= "'+value+'" >'+col_id+col_name+col_price+col_delete+'</tr>');
+                    deleteRow(value)
+                    tbody.append('<tr id= "'+value+'" >'+col_id+col_name+col_priceRoot+col_priceSell+col_delete+'</tr>');
+                }
+            }
+        );
+
+
     }
     function deleteRow(id) {
      $('#'+id).remove();

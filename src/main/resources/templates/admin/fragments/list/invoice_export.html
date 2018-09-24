@@ -3,7 +3,7 @@
     <h3>Danh sách Danh mục</small></h3>
 </div>
 <div class="x_panel" xmlns:th="http://www.thymeleaf.org">
-    <button type="button" class="btn btn-info waves-effect" onclick="location.href='/admin/sell/new'">Đăng
+    <button type="button" class="btn btn-info waves-effect" onclick="location.href='/admin/invoice_export/new'">Đăng
         ký mới
     </button>
     <div class="row">
@@ -21,10 +21,10 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <!--/*@thymesVar id="list" type="java.util.List<thn.vn.web.miav.shop.models.entity.ExportHeader>"*/-->
+                    <!--/*@thymesVar id="list" type="java.util.List<thn.vn.web.miav.shop.models.entity.InvoiceExportHeader>"*/-->
                     <tr th:each="item:${list}">
-                        <!--/*@thymesVar id="item" type="thn.vn.web.miav.shop.models.entity.ExportHeader"*/-->
-                        <td ><a th:onclick="|loadPopup('/admin/sell/detail/${item.id}')|" th:text="${item.id}"></a> </td>
+                        <!--/*@thymesVar id="item" type="thn.vn.web.miav.shop.models.entity.InvoiceExportHeader"*/-->
+                        <td ><a th:onclick="|loadPopup('/admin/invoice_export/detail/${item.id}')|" th:text="${item.id}"></a> </td>
 
                         <td th:text="${'$'+#numbers.formatInteger(item.total,3,'COMMA')}"></td>
                         <!--<td th:text="${#temporals.format(#myDialect.parseISODate(item.dateImport),'dd-MM-yyyy')}"></td>-->

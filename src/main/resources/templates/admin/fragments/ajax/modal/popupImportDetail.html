@@ -18,9 +18,9 @@
                 </tr>
                 </thead>
                 <tbody>
-                <!--/*@thymesVar id="list" type="java.util.List<thn.vn.web.miav.shop.models.entity.Import>"*/-->
+                <!--/*@thymesVar id="list" type="java.util.List<thn.vn.web.miav.shop.models.entity.InvoiceImportDetail>"*/-->
                 <tr th:each="item:${list}">
-                    <!--/*@thymesVar id="item" type="thn.vn.web.miav.shop.models.entity.Import"*/-->
+                    <!--/*@thymesVar id="item" type="thn.vn.web.miav.shop.models.entity.InvoiceImportDetail"*/-->
                     <td th:text="${item.no}"></td>
 
                     <td th:text="${item.productName+' ('+item.productNameSecond+')'}"></td>
